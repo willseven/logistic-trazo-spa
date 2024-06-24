@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const loginFormSchema = z.object({
   usernameOrEmail: z.string(),
@@ -24,6 +25,7 @@ const loginFormSchema = z.object({
 type LoginForm = z.infer<typeof loginFormSchema>;
 
 export default function LoginForm() {
+  const router = useRouter();
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -43,6 +45,7 @@ export default function LoginForm() {
       //console.log(response.data);
       //poner la store
       localStorage.setItem("token", user.token);
+      router.push('/dashboard');
     } catch (error) {
       console.log(error);
     }
