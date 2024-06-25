@@ -45,7 +45,7 @@ export default function LoginForm() {
       //console.log(response.data);
       //poner la store
       localStorage.setItem("token", user.token);
-      router.push('/dashboard');
+      router.push('/dashboard/userManagement');
     } catch (error) {
       console.log(error);
     }
