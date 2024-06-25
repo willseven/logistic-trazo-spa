@@ -1,20 +1,23 @@
 
 "use client"
+import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 
 const token = localStorage.getItem("token");
+const id = localStorage.getItem("id");
+console.log("page, ",id);
+
 const UserManagement = () => {
   
   const usersQuery = useQuery({
     queryKey: ["usersAll"],
     queryFn: async () =>
-      await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/ListUsers`,
+      await api.get(
+        `/users/ListUsers?userId=${id}`,
         {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -22,7 +25,7 @@ const UserManagement = () => {
     enabled: true,
     staleTime: 1000 * 60 * 10, //volver a hacer fetch luego de 10 min
   });
-
+  console.log(usersQuery.data)
   // if (usersQuery.isLoading || usersQuery.isPending) {
   //   return (
   //     <div className="flex items-center space-x-4">

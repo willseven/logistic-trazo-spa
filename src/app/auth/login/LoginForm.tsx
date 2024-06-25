@@ -42,9 +42,11 @@ export default function LoginForm() {
         values
       );
       const user = response.data;
-      //console.log(response.data);
+      const id = user.user.id;
+      
       //poner la store
       localStorage.setItem("token", user.token);
+      localStorage.setItem("id", id  );
       router.push('/dashboard/userManagement');
     } catch (error) {
       console.log(error);
