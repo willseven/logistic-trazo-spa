@@ -3,15 +3,31 @@ import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { SideMenu } from '../../modules/shared/components/SideMenu';
 import { SideMenuMobile } from '@/modules/shared/components/SideMenuMobile';
+import RolesSelect from './RolesSelect';
+import { useUserStore } from '@/lib/store';
+import { useMenuList } from '@/hooks/useMenuList';
 
 export default function Dashboard({children}: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+
+  const {currentRole, setMenuList} = useUserStore((state)=> ({
+    currentRole: state.currentRole,
+    setMenuList: state.setMenuList
+  }))
+
+  const { data: roleMenu} = useMenuList(currentRole?.id.toString())
+
+  useEffect(() => {
+    if(roleMenu){
+      setMenuList(roleMenu.menuList)
+    }
+  }, [roleMenu,setMenuList]);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -44,7 +60,7 @@ export default function Dashboard({children}: { children: React.ReactNode }) {
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
             <div className="relative">
-              <Button
+              {/* <Button
                 variant="outline"
                 size="icon"
                 className="shrink-0 px-10"
@@ -58,7 +74,8 @@ export default function Dashboard({children}: { children: React.ReactNode }) {
                   <Link href="/option2" className="block px-4 py-2 hover:bg-gray-200">Opción 2</Link>
                   <Link href="/option3" className="block px-4 py-2 hover:bg-gray-200">Opción 3</Link>
                 </div>
-              )}
+              )} */}
+              <RolesSelect/>
             </div>
           </div>
           
