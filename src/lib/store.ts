@@ -1,20 +1,13 @@
-import {create} from 'zustand'
-import { Root, User } from './types'
+import { create } from "zustand";
+import { persist } from "zustand/middleware"
+import { UserSlice, createUserSlice } from "./stores/userSlice";
+import { RoleSlice, createRoleSlice } from "./stores/roleSlice";
+import { MenuSlice, createMenuSlice } from "./stores/menuSlice";
 
-type RootState = {
-  root: Root;
-  setRoot: (root:Root) => void
-}
-
-
-const useStore = create<RootState>((set)=>({
-  root: {
-    token: "",
-    user: {} as User,
-    rols: [],
-    rating: false,
-    companys: [],
-    institutionParam: []
-  },
-  setRoot: (root:Root) => set({root}),
-}))
+export const useUserStore = create<UserSlice & RoleSlice & MenuSlice>()(persist((...a) => ({
+  ...createUserSlice(...a),
+  ...createRoleSlice(...a),
+  ...createMenuSlice(...a),
+}),{
+  name: "user-storage"
+}));
