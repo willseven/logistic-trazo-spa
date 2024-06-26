@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import {useUserStore} from "@/lib/store";
+import { UserResponse } from "@/lib/types";
 
 const loginFormSchema = z.object({
   usernameOrEmail: z.string(),
@@ -26,6 +28,7 @@ type LoginForm = z.infer<typeof loginFormSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
+  const { setUserResponse } = useUserStore();
   const loginForm = useForm<LoginForm>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -41,13 +44,16 @@ export default function LoginForm() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/Auth/login`,
         values
       );
-      const user = response.data;
+      const user: UserResponse = response.data;
       const id = user.user.id;
-      
+
       //poner la store
+
+      useUserStore.getState().setUserResponse(user)
+      useUserStore.getState().setRoles(user.rols)
       localStorage.setItem("token", user.token);
-      localStorage.setItem("id", id  );
-      router.push('/dashboard/userManagement');
+      localStorage.setItem("id", id.toString());
+      router.push("/dashboard/userManagement");
     } catch (error) {
       console.log(error);
     }
@@ -82,6 +88,7 @@ export default function LoginForm() {
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
                   <Input
+                    type="password"
                     placeholder="Introduzca su nombre contraseña"
                     {...field}
                   />
