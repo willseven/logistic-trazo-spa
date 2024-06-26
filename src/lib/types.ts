@@ -1,4 +1,4 @@
-export interface Root {
+export type UserResponse = {
   token: string
   user: User
   rols: Rol[]
@@ -7,7 +7,7 @@ export interface Root {
   institutionParam: InstitutionParam[]
 }
 
-export interface User {
+export type User = {
   id: number
   username: string
   name: string
@@ -25,7 +25,7 @@ export interface User {
   lastActive: string
 }
 
-export interface Rol {
+export type Rol = {
   id: number
   name: string
   label: string
@@ -33,7 +33,7 @@ export interface Rol {
   active: boolean
 }
 
-export interface Company {
+export type Company = {
   id: number
   razonSocial: string
   nit: string
@@ -83,9 +83,26 @@ export interface Company {
   updateUserId: number
 }
 
-export interface InstitutionParam {
+export type InstitutionParam = {
   id: number
   code: string
   label: string
   value: string
+}
+
+export type Menu = {
+  id: number
+  name: string
+  label: string
+  icon: string | null
+  main: boolean
+}
+
+export type RoleMenu = {
+  id: number
+  name: string
+  icon: null | string
+  main: boolean
+  menuList: Menu[]
+  steps: any[] | number[]
 }
