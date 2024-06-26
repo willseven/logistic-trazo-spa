@@ -1,11 +1,23 @@
-import { FaUser, FaBuilding, FaClipboardList, FaCogs, FaHistory } from 'react-icons/fa';
-import Link from 'next/link';
+"use client";
+import {
+  FaUser,
+  FaBuilding,
+  FaClipboardList,
+  FaCogs,
+  FaHistory,
+} from "react-icons/fa";
+import Link from "next/link";
+import { useUserStore } from "@/lib/store";
 
 export const SideMenu = () => {
+  const { menuList } = useUserStore((state) => ({
+    menuList: state.menuList,
+  }));
+
   return (
     <div className="flex flex-col h-full">
       <nav className="flex flex-col flex-1 p-2">
-        <Link href="#" className="flex items-center p-2  my-2 transition-colors duration-200 hover:bg-[#86c28b] rounded-md">
+        {/* <Link href="#" className="flex items-center p-2  my-2 transition-colors duration-200 hover:bg-[#86c28b] rounded-md">
           <FaUser className="text-xl mr-4 " />
           Usuarios
         </Link>
@@ -24,7 +36,12 @@ export const SideMenu = () => {
         <Link href="#" className="flex items-center p-2 my-2  transition-colors duration-200 hover:bg-[#86c28b] rounded-md">
           <FaHistory className="text-xl mr-4" />
           Mi historial
-        </Link>
+        </Link> */}
+        <ul>
+          {menuList.map((menuItem) => (
+            <li key={menuItem.id}>{menuItem.label}</li>
+          ))}
+        </ul>
       </nav>
     </div>
   );
