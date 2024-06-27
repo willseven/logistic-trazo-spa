@@ -1,8 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import { TableUsers } from "@/modules/usersManagement/components/TableUsers";
 import { IUser } from "@/modules/usersManagement/interface/users";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useState } from "react";
 
 const UserManagement = () => {
@@ -43,6 +45,7 @@ const UserManagement = () => {
     <div>
       <h1 className="flex items-center justify-center font-bold text-xl">Gestión de Usuarios</h1>
       <section>
+        <Button asChild><Link href="/dashboard/userManagement/new">Crear Usuario</Link></Button>
         <TableUsers 
           data={data} 
           pagination={pagination} 
