@@ -1,0 +1,15 @@
+export interface IUser{
+    id: number,
+    name: string,
+    fatherLastName: string,
+    motherLastName: string,
+    username: string,
+    email: string,
+    status: string,
+    ci: string,
+    nit: string,
+    accountNumber: string,
+    dateOfBirth: string,
+    lastActive: string,
+    cellphoneNumber: string,
+}
