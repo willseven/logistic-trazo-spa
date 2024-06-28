@@ -9,5 +9,5 @@ export const useUserStore = create<UserSlice & RoleSlice & MenuSlice>()(persist(
   ...createRoleSlice(...a),
   ...createMenuSlice(...a),
 }),{
-  name: "user-storage"
+  name: "user-storage",
 }));
