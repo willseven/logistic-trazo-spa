@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { api } from "@/lib/api";
+import { useRoles } from "@/hooks/useRoles";
+import { postUser } from "@/lib/data";
 import { useUserStore } from "@/lib/store";
-import { Rol } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -51,7 +51,7 @@ export const registerUserSchema = z.object({
   ]),
 });
 
-type RegisterUserForm = z.infer<typeof registerUserSchema>;
+export type RegisterUserForm = z.infer<typeof registerUserSchema>;
 
 export default function RegisterUserForm() {
   const { token } = useUserStore((state) => ({
@@ -76,33 +76,15 @@ export default function RegisterUserForm() {
     },
   });
 
-  const getRolesQuery = useQuery({
-    queryKey: ["Roles"],
-    queryFn: async (): Promise<Rol[]> => {
-      const response = await api.get("/rol", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    },
-  });
-
+  const getRolesQuery = useRoles();
   const roles = getRolesQuery.data;
-
   const queryClient = useQueryClient();
   const router = useRouter();
 
   //console.log(registerUserForm.formState.errors);
 
   const newUserMutation = useMutation({
-    mutationFn: async (data: RegisterUserForm) => {
-      const response = await api.post("/Auth/register", data, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-    },
+    mutationFn: postUser,
     onError: (error) => {
       console.log(error);
       toast.error("Hubo un error al crear el usuario")
