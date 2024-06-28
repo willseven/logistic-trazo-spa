@@ -15,12 +15,12 @@ export type User = {
   fatherLastName: string
   motherLastName: string
   ci: string
-  status: string
+  status: "Activo" | "Inactivo"
   phoneNumber: any
   cellphoneNumber: string
   photoUrl: any
-  city: string
-  accountNumber: string
+  city: "Santa cruz" | "La paz" | "Cochabamba" | "Sucre" | "Oruro" | "Tarija" | "Beni" | "Pando" | "Potosi"
+  accountNumber?: string
   creationDate: string
   lastActive: string
 }
@@ -105,4 +105,19 @@ export type RoleMenu = {
   main: boolean
   menuList: Menu[]
   steps: any[] | number[]
+}
+
+export type UpdateUserResponse = {
+  userToReturn: User
+  rolsUserToReturn: Rol[]
+  fileListToReturn: any[] | FileListToReturn[]
+}
+
+export type FileListToReturn = {
+  id: number
+  name: string
+  status: string | null
+  type: string | null
+  url: string
+  fileId: number
 }
