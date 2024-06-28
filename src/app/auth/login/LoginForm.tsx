@@ -46,6 +46,8 @@ export default function LoginForm() {
       );
       const user: UserResponse = response.data;
       const id = user.user.id;
+      console.log(user.rols);
+      
 
       //poner la store
 

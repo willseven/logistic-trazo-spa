@@ -34,13 +34,13 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPage: (pa
 
   return (
     <div>
-      <div className="rounded-md border">
+      <div className="rounded-md border ">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow  key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead  key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
