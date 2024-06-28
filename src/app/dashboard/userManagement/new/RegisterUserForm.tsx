@@ -16,8 +16,10 @@ import { api } from "@/lib/api";
 import { useUserStore } from "@/lib/store";
 import { Rol } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export const registerUserSchema = z.object({
@@ -29,7 +31,7 @@ export const registerUserSchema = z.object({
   motherLastName: z.string(),
   rol: z.array(
     z.object({
-      id: z.coerce.string(),
+      id: z.number(),
     })
   ),
   ci: z.string(),
@@ -88,10 +90,33 @@ export default function RegisterUserForm() {
 
   const roles = getRolesQuery.data;
 
-  console.log(registerUserForm.formState.errors);
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  //console.log(registerUserForm.formState.errors);
+
+  const newUserMutation = useMutation({
+    mutationFn: async (data: RegisterUserForm) => {
+      const response = await api.post("/Auth/register", data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Hubo un error al crear el usuario")
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:["usersAll"]})
+      toast.success("Usuario creado exitosamente");
+      router.push('/dashboard/userManagement');
+    }
+  })
 
   function onSubmit(values: RegisterUserForm) {
     console.log(values);
+    newUserMutation.mutate(values);
   }
 
   if (getRolesQuery.isLoading || getRolesQuery.isPending) {
@@ -301,14 +326,14 @@ export default function RegisterUserForm() {
                         <FormControl>
                           <Checkbox
                             checked={field.value.some(
-                              (value) => value.id === role.id.toString()
+                              (value) => value.id === role.id
                             )}
                             onCheckedChange={(checked) => {
                               return checked
                                 ? field.onChange([...field.value, { ...role }])
                                 : field.onChange(
                                     field.value?.filter(
-                                      (value) => value.id !== role.id.toString()
+                                      (value) => value.id !== role.id
                                     )
                                   );
                             }}
