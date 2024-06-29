@@ -18,11 +18,14 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import {useUserStore} from "@/lib/store";
 import { UserResponse } from "@/lib/types";
+import { api } from "@/lib/api";
 
 const loginFormSchema = z.object({
   usernameOrEmail: z.string(),
   password: z.string(),
 });
+
+
 
 type LoginForm = z.infer<typeof loginFormSchema>;
 
@@ -55,7 +58,19 @@ export default function LoginForm() {
       useUserStore.getState().setRoles(user.rols)
       localStorage.setItem("token", user.token);
       localStorage.setItem("id", id.toString());
-      router.push("/dashboard/userManagement");
+      const firstRole = user.rols[0];
+      console.log(firstRole)
+      useUserStore.getState().setCurrentRole(firstRole);
+
+      const roleMenuResponse = await api.get(`/Rol/${firstRole.id}/Menu`, {
+        headers: {
+          "Authorization": `Bearer ${user.token}`, // Ejemplo de un header adicional
+        }
+      });
+
+
+      useUserStore.getState().setMenuList(roleMenuResponse.data.menuList);
+      router.push(`../dashboard/${roleMenuResponse.data.menuList[0].name}`);
     } catch (error) {
       console.log(error);
     }
