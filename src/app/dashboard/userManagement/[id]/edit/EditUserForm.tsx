@@ -11,10 +11,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useRoles } from "@/hooks/useRoles";
-import { postUser } from "@/lib/data";
+import { api } from "@/lib/api";
 import { useUserStore } from "@/lib/store";
+import { UpdateUserResponse } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -22,7 +29,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-export const registerUserSchema = z.object({
+const updateUserSchema = z.object({
+  id: z.number(),
   username: z.string(),
   password: z.string(),
   email: z.string().email(),
@@ -38,6 +46,7 @@ export const registerUserSchema = z.object({
   status: z.enum(["Activo", "Inactivo"]),
   phoneNumber: z.string(),
   cellphoneNumber: z.string(),
+  accountNumber: z.string().optional(),
   city: z.enum([
     "Santa cruz",
     "La paz",
@@ -51,28 +60,35 @@ export const registerUserSchema = z.object({
   ]),
 });
 
-export type RegisterUserForm = z.infer<typeof registerUserSchema>;
+type UpdateUserForm = z.infer<typeof updateUserSchema>;
 
-export default function RegisterUserForm() {
+export default function EditUserForm({
+  userResponse,
+}: {
+  userResponse: UpdateUserResponse;
+}) {
+
   const { token } = useUserStore((state) => ({
     token: state.userResponse.token,
   }));
 
-  const registerUserForm = useForm<RegisterUserForm>({
-    resolver: zodResolver(registerUserSchema),
+  const updateUserForm = useForm<UpdateUserForm>({
+    resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      username: "",
+      id: userResponse.userToReturn.id,
+      username: userResponse.userToReturn.username,
       password: "",
-      email: "",
-      name: "",
-      fatherLastName: "",
-      motherLastName: "",
-      ci: "",
-      status: "Activo",
-      phoneNumber: "",
-      cellphoneNumber: "",
-      city: "La paz",
-      rol: [],
+      email: userResponse.userToReturn.email,
+      name: userResponse.userToReturn.name,
+      fatherLastName: userResponse.userToReturn.fatherLastName,
+      motherLastName: userResponse.userToReturn.motherLastName,
+      ci: userResponse.userToReturn.ci,
+      status: userResponse.userToReturn.status,
+      phoneNumber: userResponse.userToReturn.phoneNumber,
+      cellphoneNumber: userResponse.userToReturn.cellphoneNumber,
+      city: userResponse.userToReturn.city,
+      //accountNumber: userResponse.userToReturn.accountNumber,
+      rol: userResponse.rolsUserToReturn,
     },
   });
 
@@ -81,35 +97,42 @@ export default function RegisterUserForm() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  //console.log(registerUserForm.formState.errors);
-
-  const newUserMutation = useMutation({
-    mutationFn: postUser,
+  const updateUserMutation = useMutation({
+    mutationFn: async (data: UpdateUserForm) => {
+      const response = await api.put(`/Users/${data.id}/UpdateUser`,data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      return response.data
+    },
     onError: (error) => {
-      console.log(error);
-      toast.error("Hubo un error al crear el usuario")
+      console.log(error)
+      toast.error("Hubo un error al actualizar el usuario")
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:["usersAll"]})
-      toast.success("Usuario creado exitosamente");
-      router.push('/dashboard/userManagement');
-    }
-  })
+      toast.success("Usuario actualizado correctamente");
+      queryClient.invalidateQueries({queryKey: ["usersAll"]})
+      router.push("/dashboard/userManagement")
+    },
+  });
 
-  function onSubmit(values: RegisterUserForm) {
+  function onSubmit(values: UpdateUserForm) {
     console.log(values);
-    newUserMutation.mutate(values);
+    updateUserMutation.mutate(values)
   }
 
+  console.log(updateUserForm.formState.errors)
+
   if (getRolesQuery.isLoading || getRolesQuery.isPending) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   return (
-    <Form {...registerUserForm}>
-      <form onSubmit={registerUserForm.handleSubmit(onSubmit)}>
+    <Form {...updateUserForm}>
+      <form onSubmit={updateUserForm.handleSubmit(onSubmit)}>
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="username"
           render={({ field }) => (
             <FormItem>
@@ -123,7 +146,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="password"
           render={({ field }) => (
             <FormItem>
@@ -137,7 +160,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -151,7 +174,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="name"
           render={({ field }) => (
             <FormItem>
@@ -165,7 +188,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="fatherLastName"
           render={({ field }) => (
             <FormItem>
@@ -179,7 +202,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="motherLastName"
           render={({ field }) => (
             <FormItem>
@@ -193,7 +216,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="ci"
           render={({ field }) => (
             <FormItem>
@@ -207,7 +230,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="status"
           render={({ field }) => (
             <FormItem>
@@ -231,7 +254,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="cellphoneNumber"
           render={({ field }) => (
             <FormItem>
@@ -245,7 +268,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
@@ -259,7 +282,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="city"
           render={({ field }) => (
             <FormItem>
@@ -284,7 +307,7 @@ export default function RegisterUserForm() {
           )}
         />
         <FormField
-          control={registerUserForm.control}
+          control={updateUserForm.control}
           name="rol"
           render={() => (
             <FormItem>
@@ -297,7 +320,7 @@ export default function RegisterUserForm() {
               {roles!.map((role) => (
                 <FormField
                   key={role.id}
-                  control={registerUserForm.control}
+                  control={updateUserForm.control}
                   name="rol"
                   render={({ field }) => {
                     return (
