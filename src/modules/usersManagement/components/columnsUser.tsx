@@ -1,9 +1,19 @@
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef, SortDirection } from "@tanstack/react-table"
 import { IUser } from "../interface/users"
 import { Button } from "@/components/ui/button"
-import { Pencil } from "lucide-react"
+import { ArrowUpDown, ChevronDownIcon, ChevronUpIcon, Pencil } from "lucide-react"
 import { Trash2 } from "lucide-react"
-import { FolderUp  } from "lucide-react"
+import { FolderUp  } from "lucide-react";
+
+const SortedIcon = ({isSorted}: {isSorted: false | SortDirection}) => {
+  if (isSorted === "asc"){
+    return <ChevronUpIcon className=" h-4 w-4"/>;
+  }
+  if (isSorted === "desc"){
+    return <ChevronDownIcon className=" h-4 w-4"/>;
+  }
+  return null;
+}
 
 export const columnsUser: ColumnDef<IUser>[] = [
     // {
@@ -12,15 +22,40 @@ export const columnsUser: ColumnDef<IUser>[] = [
     // },
     {
       accessorKey:"name" ,
-      header:"Nombres" ,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Nombre
+            <SortedIcon isSorted={column.getIsSorted()}/>
+          </Button>
+        )
+      },
     },
     {
       accessorKey:"fatherLastName" ,
-      header:"Apellido Paterno" ,
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Apellido Paterno 
+            <SortedIcon isSorted={column.getIsSorted()}/>
+          </Button>
+        )
+      },
     },
     {
       accessorKey:"motherLastName" ,
-      header:"Apellido materno" ,
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Apellido Materno
+            <SortedIcon isSorted={column.getIsSorted()}/>
+          </Button>
+        )
+      },
     },
     // {
     //   accessorKey:"username" ,
@@ -28,11 +63,25 @@ export const columnsUser: ColumnDef<IUser>[] = [
     // },
     {
       accessorKey:"email" ,
-      header:"Correo" ,
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Email
+            <SortedIcon isSorted={column.getIsSorted()}/>
+          </Button>
+        )
+      },
     },
     {
       accessorKey:"status" ,
-      header:"Estado" ,
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Estado
+            <SortedIcon isSorted={column.getIsSorted()}/>
+          </Button>
+        )
+      },
     },
     // {
     //   accessorKey:"ci" ,
