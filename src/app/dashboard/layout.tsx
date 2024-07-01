@@ -32,15 +32,35 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     }
   }, [roleMenu, setMenuList]);
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const hamburgerIcon = document.getElementById('toggleSidebarMobileHamburger');
+    const closeIcon = document.getElementById('toggleSidebarMobileClose');
+
+    if (isOpen) {
+      sidebar?.classList.remove('hidden');
+      backdrop?.classList.remove('hidden');
+      hamburgerIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+    } else {
+      sidebar?.classList.add('hidden');
+      backdrop?.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    }
+  };
+
   return (
   <>
     {/* Header */}
-      <nav className="bg-[#4D44B5]  border-gray-200 fixed z-30 w-full">
+      <nav className=" border-gray-200 fixed z-30 w-full">
         <div className="px-2 py-2 lg:px-5 lg:pl-3">
           {/* <div className="flex items-center justify-between"> */}
           <div className="grid grid-cols-3 items-center">
             <div className="flex items-center justify-start">
-              <button id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar" className="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded">
+              <button onClick={toggleSidebar} id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar" className="lg:hidden mr-2  hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded">
                 <svg id="toggleSidebarMobileHamburger" className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
                 </svg>
@@ -56,7 +76,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
                   <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
                 </svg> */}
-                <span className=" whitespace-nowrap text-white">
+                <span className=" whitespace-nowrap ">
                 <Image
                   src={img}
                   width={100}
@@ -75,7 +95,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
             <div className="flex items-center justify-end">
               {/* User Avatar */}
-              <Button className="bg-[#4D44B5] text-white p-2 rounded-full w-12 h-12 flex items-center justify-center shrink-0"
+              <Button className="  p-2 rounded-full w-12 h-12 flex items-center justify-center shrink-0"
               variant="outline"
               size="icon"
               onClick={() => setIsProfileOpen(!isProfileOpen)}>
@@ -84,7 +104,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
               {isProfileOpen && (
                 <div className="absolute right-0 top-full z-50 mt-2 w-48  border rounded shadow-lg">
                   <button
-                    className="block w-full text-left px-4 py-2 bg-white hover:bg-gray-200"
+                    className="block w-full text-left px-4 py-2  hover:bg-secondary"
                     onClick={() => {
 
                     }}
@@ -101,15 +121,15 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
   {/* ASIDE */}
 
-  <div className="flex overflow-hidden bg-white pt-16">
+  <div className="flex overflow-hidden pt-16">
         <aside
           id="sidebar"
           className="fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75"
           aria-label="Sidebar"
         >
-          <div className="relative flex-1 flex flex-col min-h-0  border-[#4D44B5] bg-white pt-0">
+          <div className="relative flex-1 flex flex-col min-h-0  pt-0">
             <div className="flex-1 flex flex-col overflow-y-auto">
-              <div className="flex-1 px-3 pt-5 bg-[#4D44B5] divide-y space-y-1">
+              <div className="flex-1 px-3 pt-5  divide-y space-y-1">
                 <ul className="space-y-2 pb-2">
                   <SideMenu/>
                 </ul>
@@ -118,17 +138,18 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
         <div
-          className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
+          className=" opacity-50 hidden fixed inset-0 z-10 h-full w-60 bg-white"
           id="sidebarBackdrop"
+          onClick={toggleSidebar}
         ></div>
         <div
           id="main-content"
-          className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64"
+          className="h-full w-full bg-secondary relative overflow-y-auto lg:ml-64"
         >
           <main>
             <div className="pt-6 px-4 rounded">
               <div className="w-full min-h-[calc(100vh-230px)]">
-                <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+                <div className="bg-va shadow rounded-lg p-4 sm:p-6 xl:p-8">
                   {children}
                 </div>
               </div>

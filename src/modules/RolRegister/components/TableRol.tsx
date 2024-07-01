@@ -32,13 +32,13 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { columnsUser } from './columnsUser';
-import { IUser } from "../interface/users";
+import { columnsRol } from './columnsRol';
+import { IRol } from "../interface/rols";
 import { useState, useEffect } from 'react';
 
-export const TableUsers = (props: { data: IUser[], pagination: any, setPagination: (pagination: any) => void }) => {
+export const TableRol = (props: { data: IRol[], pagination: any, setPagination: (pagination: any) => void }) => {
   const { data, pagination, setPagination } = props;
-  const columns = columnsUser;
+  const columns = columnsRol;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filterValue, setFilterValue] = useState("");
@@ -122,14 +122,10 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
             <SelectGroup>
               <SelectLabel>Filtros</SelectLabel>
               <SelectItem value="name">Nombre</SelectItem>
-              <SelectItem value="fatherLastName">Apellido Paterno</SelectItem>
-              <SelectItem value="motherLastName">Apellido Materno</SelectItem>
-              <SelectItem value="email">Email</SelectItem>
-              <SelectItem value="status">Estado</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button asChild><Link href="/dashboard/userManagement/new">Crear Usuario</Link></Button>
+        <Button asChild><Link href="/dashboard/userManagement/new">Crear Rol</Link></Button>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -163,14 +159,14 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  Sin resultados.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-center gap-2 items-center p-4">
+      {/* <div className="flex justify-center gap-2 items-center p-4">
         <Button 
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
@@ -213,7 +209,7 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
             </SelectGroup>
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
     </div>
   );
 };
