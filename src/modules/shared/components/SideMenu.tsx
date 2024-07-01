@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import { useUserStore } from "@/lib/store";
+import PageTheme from '../../../app/dashboard/theme/page';
 
 export const SideMenu = () => {
   const { menuList } = useUserStore((state) => ({
@@ -25,13 +26,12 @@ export const SideMenu = () => {
             <li key={menuItem.id}>
               <Link className="flex items-center p-2 hover:bg-gray-200 rounded-md" href={menuItem.name}>
                   {menuItem.label}
-              
-                
               </Link>
             </li>
           ))}
         </ul>
       </nav>
+      <PageTheme/>
     </div>
   );
 };

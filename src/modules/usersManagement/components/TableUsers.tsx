@@ -27,14 +27,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { columnsUser } from './columnsUser';
 import { IUser } from "../interface/users";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const TableUsers = (props: { data: IUser[], pagination: any, setPagination: (pagination: any) => void }) => {
   const { data, pagination, setPagination } = props;
@@ -42,7 +42,7 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filterValue, setFilterValue] = useState("");
-  const [filterColumn, setFilterColumn] = useState("all");
+  const [filterColumn, setFilterColumn] = useState("name");
 
   const table = useReactTable({
     data,
@@ -85,33 +85,26 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
     debugTable: true,
   });
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setFilterValue(value);
-  
+  useEffect(() => {
     if (filterColumn === "all") {
-      columns.forEach(column => {
-        table.getColumn((column as { accessorKey: string }).accessorKey)?.setFilterValue(value);
-      });
+      const filterColumns = ["name", "fatherLastName", "motherLastName", "email", "status"];
+      const filters = filterColumns.map(column => ({ id: column, value: filterValue }));
+      setColumnFilters(filters);
     } else {
-      table.getColumn(filterColumn)?.setFilterValue(value);
+      setColumnFilters([{ id: filterColumn, value: filterValue }]);
     }
+  }, [filterValue, filterColumn]);
+
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValue(event.target.value);
   };
+
   const handleSelectChange = (value: string) => {
     setFilterColumn(value);
     setFilterValue("");
-  
-    if (value === "all") {
-      columns.forEach(column => {
-        table.getColumn((column as { accessorKey: string }).accessorKey)?.setFilterValue(value);
-
-      });
-    } else {
-      table.getColumn(value)?.setFilterValue("");
-    }
+    setColumnFilters([]);
   };
 
-  
   return (
     <div>
       <div className="flex justify-between items-center py-4">
@@ -128,7 +121,6 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Filtros</SelectLabel>
-              <SelectItem value="all">Todos</SelectItem>
               <SelectItem value="name">Nombre</SelectItem>
               <SelectItem value="fatherLastName">Apellido Paterno</SelectItem>
               <SelectItem value="motherLastName">Apellido Materno</SelectItem>
@@ -206,8 +198,6 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
         >
           {'Último'}
         </Button>
-
-            
         <Select value={pagination.itemsPerPage.toString()} onValueChange={(value) => table.setPageSize(Number(value))}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder={`Mostrar ${pagination.itemsPerPage}`} />

@@ -1,13 +1,27 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware"
+import { persist } from "zustand/middleware";
 import { UserSlice, createUserSlice } from "./stores/userSlice";
 import { RoleSlice, createRoleSlice } from "./stores/roleSlice";
 import { MenuSlice, createMenuSlice } from "./stores/menuSlice";
 
-export const useUserStore = create<UserSlice & RoleSlice & MenuSlice>()(persist((...a) => ({
-  ...createUserSlice(...a),
-  ...createRoleSlice(...a),
-  ...createMenuSlice(...a),
-}),{
-  name: "user-storage",
-}));
+export const useUserStore = create<UserSlice & RoleSlice & MenuSlice>()(
+  persist(
+    (...a) => {
+      const userSlice = createUserSlice(...a);
+      const roleSlice = createRoleSlice(...a);
+      const menuSlice = createMenuSlice(...a);
+
+      return {
+        ...userSlice,
+        ...roleSlice,
+        ...menuSlice,
+        logout: () => {
+          userSlice.logout();
+          roleSlice.logout();
+          menuSlice.logout();
+        },
+      };
+    },
+    { name: "user-storage" }
+  )
+);
