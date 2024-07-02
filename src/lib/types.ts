@@ -125,3 +125,16 @@ export type FileListToReturn = {
   url: string
   fileId: number
 }
+
+export type CompanyResponse = {
+  id: number
+  razonSocial: string
+  nit: string
+  status: string
+  gps: string
+  categoria: string
+  details: any
+  direccion: string
+  users: any[]
+}
+
