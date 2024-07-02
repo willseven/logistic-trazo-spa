@@ -28,8 +28,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-          </ThemeProvider>
           <Toaster richColors/>
+          </ThemeProvider>
         </body>
       </html>
     </ReactQueryClientProvider>
