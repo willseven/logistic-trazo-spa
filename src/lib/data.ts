@@ -3,6 +3,7 @@ import { api } from "./api";
 import { CompanyResponse, Menu, Rol, UpdateUserResponse } from "./types";
 import { NewCompany } from "@/app/dashboard/manage-company/new/CreateNewCompanyForm";
 import { NewMenu } from "@/app/dashboard/MenuRegister/new/CreateNewMenuForm";
+import { EditMenu } from "@/app/dashboard/MenuRegister/EditMenu";
 
 /**
  * Sets the authorization token in the Axios instance headers.
@@ -104,6 +105,21 @@ export async function postMenu(data: NewMenu) {
   }
   setAuthToken(token);
   const response = await api.post("/Menu", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function editMenu(data: EditMenu) {
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+
+  const response = await api.put("/Menu", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -42,7 +42,11 @@ export default function RolesSelect() {
   }
 
   return (
-    <Select className="w-3/5"
+    <Select
+      //defaultValue averiguar mas como funciona ese prop
+      className="my-react-select-container"
+      classNamePrefix="my-react-select"
+      isSearchable={false}
       options={roles}
       getOptionLabel={(role) => role.label}
       getOptionValue={(role) => role.id.toString()}
