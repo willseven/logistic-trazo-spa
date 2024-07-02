@@ -35,9 +35,10 @@ import { Input } from "@/components/ui/input";
 import { columnsRol } from './columnsRol';
 import { IRol } from "../interface/rols";
 import { useState, useEffect } from 'react';
+import NewRol from './newRol';
 
-export const TableRol = (props: { data: IRol[], pagination: any, setPagination: (pagination: any) => void }) => {
-  const { data, pagination, setPagination } = props;
+export const TableRol = (props: { data: IRol[]}) => {
+  const { data } = props;
   const columns = columnsRol;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -53,50 +54,15 @@ export const TableRol = (props: { data: IRol[], pagination: any, setPagination: 
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
-    pageCount: pagination.totalPages,
     state: {
-      pagination: {
-        pageIndex: pagination.currentPage - 1, 
-        pageSize: pagination.itemsPerPage,
-      },
-      sorting,
       columnFilters,
     },
-    onPaginationChange: (updater) => {
-      if (typeof updater === 'function') {
-        const newState = updater({
-          pageIndex: pagination.currentPage - 1,
-          pageSize: pagination.itemsPerPage,
-        });
-        setPagination({
-          ...pagination,
-          currentPage: newState.pageIndex + 1,
-          itemsPerPage: newState.pageSize,
-        });
-      } else {
-        setPagination({
-          ...pagination,
-          currentPage: updater.pageIndex + 1,
-          itemsPerPage: updater.pageSize,
-        });
-      }
-    },
-    manualPagination: true,
     debugTable: true,
   });
 
-  useEffect(() => {
-    if (filterColumn === "all") {
-      const filterColumns = ["name", "fatherLastName", "motherLastName", "email", "status"];
-      const filters = filterColumns.map(column => ({ id: column, value: filterValue }));
-      setColumnFilters(filters);
-    } else {
-      setColumnFilters([{ id: filterColumn, value: filterValue }]);
-    }
-  }, [filterValue, filterColumn]);
-
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValue(event.target.value);
+    setColumnFilters([{ id: filterColumn, value: event.target.value }]);
   };
 
   const handleSelectChange = (value: string) => {
@@ -125,7 +91,9 @@ export const TableRol = (props: { data: IRol[], pagination: any, setPagination: 
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button asChild><Link href="/dashboard/userManagement/new">Crear Rol</Link></Button>
+
+        <NewRol />
+        {/* <Button asChild><Link href="/dashboard/userManagement/new">Crear Rol</Link></Button> */}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -166,50 +134,24 @@ export const TableRol = (props: { data: IRol[], pagination: any, setPagination: 
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex justify-center gap-2 items-center p-4">
-        <Button 
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'Primero'}
-        </Button>
-        <Button 
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          {'Anterior'}
+          Anterior
         </Button>
-        <span className="text-black">
-          {pagination.currentPage} de {table.getPageCount()}
-        </span>
-        <Button 
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          {'Siguiente'}
+          Siguiente
         </Button>
-        <Button 
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'Último'}
-        </Button>
-        <Select value={pagination.itemsPerPage.toString()} onValueChange={(value) => table.setPageSize(Number(value))}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={`Mostrar ${pagination.itemsPerPage}`} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Paginación</SelectLabel>
-              {[10, 25, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={pageSize.toString()}>
-                  Mostrar {pageSize}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div> */}
+      </div>
     </div>
   );
 };

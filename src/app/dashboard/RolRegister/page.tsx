@@ -10,14 +10,8 @@ import { TableRol } from '../../../modules/RolRegister/components/TableRol';
 
 const RolRegister = () => {
   const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
-  
-  const [pagination, setPagination] = useState({
-    currentPage: 1, 
-    itemsPerPage: 10,
-    totalItems: 0,
-    totalPages: 1,
-  });
+  // const id = localStorage.getItem("id");
+
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["Rols"],
@@ -46,8 +40,6 @@ const RolRegister = () => {
       <section>
         <TableRol
           data={data ?? []} 
-          pagination={pagination} 
-          setPagination={setPagination} 
         />
       </section>
     </div>

@@ -77,7 +77,7 @@ export default function RegisterUserForm() {
   });
 
   const getRolesQuery = useQuery({
-    queryKey: ["Roles"],
+    queryKey: ["Rols"],
     queryFn: async (): Promise<Rol[]> => {
       const response = await api.get("/rol", {
         headers: {

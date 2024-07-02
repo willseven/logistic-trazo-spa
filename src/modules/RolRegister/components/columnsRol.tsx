@@ -34,38 +34,6 @@ export const columnsRol: ColumnDef<IRol>[] = [
         )
       },
     },
-   
-    
-    // {
-    //   accessorKey:"username" ,
-    //   header:"username" ,
-    // },
-   
-    
-    // {
-    //   accessorKey:"ci" ,
-    //   header:"ci" ,
-    // },
-    // {
-    //   accessorKey:"nit" ,
-    //   header:"nit" ,
-    // },
-    // {
-    //   accessorKey:"accountNumber" ,
-    //   header:"accountNumber" ,
-    // },
-    // {
-    //   accessorKey:"dateOfBirth" ,
-    //   header:"dateOfBirth" ,
-    // },
-    // {
-    //   accessorKey:"lastActive" ,
-    //   header:"lastActive" ,
-    // },
-    // {
-    //   accessorKey:"cellphoneNumber" ,
-    //   header:"cellphoneNumber" ,
-    // },
     { 
       accessorKey:"actions" ,
       header:"Acciones" ,
