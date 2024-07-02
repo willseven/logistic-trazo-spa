@@ -24,7 +24,7 @@ export const SideMenu = () => {
           {menuList.map((menuItem) => (
             
             <li key={menuItem.id}>
-              <Link className="flex items-center p-2 hover:bg-gray-200 rounded-md" href={menuItem.name}>
+              <Link className="flex items-center p-2 hover:bg-gray-200 rounded-md" href={`/dashboard/${menuItem.name}`}>
                   {menuItem.label}
               </Link>
             </li>
