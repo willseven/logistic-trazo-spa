@@ -6,6 +6,7 @@ import { IUser } from "@/modules/usersManagement/interface/users";
 import { useQuery } from "@tanstack/react-query";
 
 import { useState } from "react";
+import { TableManagement } from '../../../modules/dropdown-management/components/TableManagement';
 
 
 const DropdownManagement = () => {
@@ -46,10 +47,9 @@ const DropdownManagement = () => {
       {/* <h1 className="flex items-center justify-center font-bold text-xl">Gestión de Usuarios</h1> */}
       <section>
         
-        <TableUsers 
+        <TableManagement
           data={data ?? []} 
-          pagination={pagination} 
-          setPagination={setPagination} 
+       
         />
       </section>
     </div>
