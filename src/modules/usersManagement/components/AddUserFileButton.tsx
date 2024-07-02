@@ -78,10 +78,9 @@ export default function AddUserFileButton({ id }: { id: string }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Adjuntar Documento</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Relaciona un documento con un usuario
           </DialogDescription>
         </DialogHeader>
         <div>
@@ -124,7 +123,7 @@ export default function AddUserFileButton({ id }: { id: string }) {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Guardar</Button>
             </form>
           </Form>
         </div>

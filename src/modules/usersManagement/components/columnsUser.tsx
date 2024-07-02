@@ -135,10 +135,12 @@ export const columnsUser: ColumnDef<IUser>[] = [
       return (
         <div className="flex gap-2 justify-center">
           <Button variant="outline" size="icon" asChild>
-            <Link href={`/dashboard/userManagement/${user.id}/edit`}><Pencil className="h-4 w-4" /></Link>
+            <Link href={`/dashboard/userManagement/${user.id}/edit`}>
+              <Pencil className="h-4 w-4" />
+            </Link>
           </Button>
-          <DeleteUserButton id={user.id.toString()}/>
-          <AddUserFileButton/>
+          <DeleteUserButton id={user.id.toString()} />
+          <AddUserFileButton id={user.id.toString()} />
         </div>
       );
     },
