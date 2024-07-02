@@ -42,7 +42,7 @@ export default function RolesSelect() {
   }
 
   return (
-    <Select
+    <Select className="w-3/5"
       options={roles}
       getOptionLabel={(role) => role.label}
       getOptionValue={(role) => role.id.toString()}

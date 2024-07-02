@@ -42,7 +42,7 @@ const ManageUsers = () => {
 
   return (
     <div>
-      <h1 className="flex items-center justify-center font-bold text-xl">Gestión de Usuarios</h1>
+      <h1 className=" flex items-center justify-center font-bold text-xl text-primary">Gestión de Usuarios</h1>
       <section>
         
         <TableUsers 

@@ -107,7 +107,7 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
 
   return (
     <div>
-      <div className="flex justify-between items-center py-4">
+      <div className=" flex text-primary justify-between items-center py-4">
         <Input
           className="max-w-sm"
           placeholder="Filtrar"
@@ -131,7 +131,7 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
         </Select>
         <Button asChild><Link href="/dashboard/userManagement/new">Crear Usuario</Link></Button>
       </div>
-      <div className="rounded-md border">
+      <div className="text-primary rounded-md border-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -183,7 +183,7 @@ export const TableUsers = (props: { data: IUser[], pagination: any, setPaginatio
         >
           {'Anterior'}
         </Button>
-        <span className="text-black">
+        <span className="text-primary">
           {pagination.currentPage} de {table.getPageCount()}
         </span>
         <Button 

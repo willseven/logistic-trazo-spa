@@ -1,24 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Image from 'next/image'
-import { User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-
 import { SideMenu } from "../../modules/shared/components/SideMenu";
-import { SideMenuMobile } from "@/modules/shared/components/SideMenuMobile";
 import RolesSelect from "./RolesSelect";
 import { useUserStore } from "@/lib/store";
 import { useMenuList } from "@/hooks/useMenuList";
 import img from "../../images/noxun.jpg";
 import { useRouter } from "next/navigation";
+import { Menu } from "lucide-react";
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   const { currentRole, setMenuList } = useUserStore((state) => ({
     currentRole: state.currentRole,
@@ -33,136 +28,89 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     }
   }, [roleMenu, setMenuList]);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-    const sidebar = document.getElementById('sidebar');
-    const backdrop = document.getElementById('sidebarBackdrop');
-    const hamburgerIcon = document.getElementById('toggleSidebarMobileHamburger');
-    const closeIcon = document.getElementById('toggleSidebarMobileClose');
-
-    if (isOpen) {
-      sidebar?.classList.remove('hidden');
-      backdrop?.classList.remove('hidden');
-      hamburgerIcon?.classList.add('hidden');
-      closeIcon?.classList.remove('hidden');
-    } else {
-      sidebar?.classList.add('hidden');
-      backdrop?.classList.add('hidden');
-      hamburgerIcon?.classList.remove('hidden');
-      closeIcon?.classList.add('hidden');
-    }
-  };
-
   return (
-  <>
-    {/* Header */}
-      <nav className=" border-gray-200 fixed z-30 w-full">
+    <>
+      {/* Header */}
+      <nav className="shadow-lg border-gray-200 fixed z-30 w-full bg-primary">
         <div className="px-2 py-2 lg:px-5 lg:pl-3">
-          {/* <div className="flex items-center justify-between"> */}
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-4 items-center">
             <div className="flex items-center justify-start">
-              <button onClick={toggleSidebar} id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar" className="lg:hidden mr-2  hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded">
-                <svg id="toggleSidebarMobileHamburger" className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-                </svg>
-                <svg id="toggleSidebarMobileClose" className="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
-                </svg>
-              </button>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="lg:hidden mr-2 p-2 rounded">
+                    <Menu className="w-6 h-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-2/3">
+                  <SheetHeader>
+                    <SheetTitle>Menú</SheetTitle>
+                  </SheetHeader>
+                  <div className="pt-5 ">
+                    <SideMenu />
+                  </div>
+                  
+                </SheetContent>
+              </Sheet>
+              <div className="hidden lg:block">
               <Link href="#" className="text-xl font-bold flex items-center lg:ml-2.5">
-                {/* Logo */}
-                
-                {/* <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-6 w-6">
-                  <rect width="256" height="256" fill="none"></rect>
-                  <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
-                  <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16"></line>
-                </svg> */}
-                <span className=" whitespace-nowrap ">
-                <Image
-                  src={img}
-                  width={100}
-                  height={50}
-                  alt="Picture of the author"
-                />
-                </span>
+                <Image src={img} width={100} height={50} alt="Logo" />
               </Link>
-            </div>  
-            <div>
-              
-              <div className="">
-                <RolesSelect />
               </div>
             </div>
-
+            <div className="flex col-span-2 justify-start">
+              <RolesSelect />
+            </div>
             <div className="flex items-center justify-end">
-              {/* User Avatar */}
-              <Button className="  p-2 rounded-full w-12 h-12 flex items-center justify-center shrink-0"
-              variant="outline"
-              size="icon"
-              onClick={() => setIsProfileOpen(!isProfileOpen)}>
+              <Button className="p-2 rounded-full w-12 h-12 flex items-center justify-center shrink-0"
+                variant="outline"
+                size="icon"
+                onClick={() => setIsProfileOpen(!isProfileOpen)}>
                 NX
               </Button>
               {isProfileOpen && (
-                <div className="absolute right-0 top-full z-50 mt-2 w-48  border rounded shadow-lg">
+                <div className="absolute right-0 top-full z-50 mt-2 w-48 border rounded shadow-lg">
                   <button
-                    className="block w-full text-left px-4 py-2  hover:bg-secondary"
+                    className="block w-full text-left px-4 py-2 hover:bg-secondary"
                     onClick={() => {
                       localStorage.removeItem("token");
                       localStorage.removeItem("id");
                       router.push("../auth/login");
-
-
                     }}
                   >
                     Cerrar sesión
                   </button>
                 </div>
-               )}
+              )}
             </div>
           </div>
         </div>
       </nav>
 
-
-  {/* ASIDE */}
-
-  <div className="flex overflow-hidden pt-16">
-        <aside
-          id="sidebar"
-          className="fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75"
-          aria-label="Sidebar"
-        >
-          <div className="relative flex-1 flex flex-col min-h-0  pt-0">
+      {/* ASIDE */}
+      <div className="flex overflow-hidden pt-16 ">
+        <aside id="sidebar" className=" fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
+          <div className="ml-2 shadow-2xl border-r bg-background relative flex-1 flex flex-col min-h-0 pt-0">
             <div className="flex-1 flex flex-col overflow-y-auto">
-              <div className="flex-1 px-3 pt-5  divide-y space-y-1">
+              <div className="flex-1 px-3 pt-5 divide-y space-y-1">
                 <ul className="space-y-2 pb-2">
-                  <SideMenu/>
+                  <SideMenu />
                 </ul>
               </div>
             </div>
           </div>
         </aside>
-        <div
-          className=" opacity-50 hidden fixed inset-0 z-10 h-full w-60 bg-white"
-          id="sidebarBackdrop"
-          onClick={toggleSidebar}
-        ></div>
-        <div
-          id="main-content"
-          className="h-full w-full bg-secondary relative overflow-y-auto lg:ml-64"
-        >
+        <div id="main-content" className="h-full w-full bg-background relative overflow-y-auto lg:ml-64">
           <main>
-            <div className="pt-6 px-4 rounded">
-              <div className="w-full min-h-[calc(100vh-230px)]">
-                <div className="bg-va shadow rounded-lg p-4 sm:p-6 xl:p-8">
+            <div className="pt-6 px-4 rounded-xl ">
+              <div className="w-full min-h-[calc(100vh-110px)]">
+                <div className="bg-background drop-shadow-2xl rounded-lg p-4 sm:p-6 xl:p-8">
                   {children}
                 </div>
               </div>
             </div>
           </main>
-          
         </div>
       </div>
-  </>
+    </>
   );
 }
