@@ -36,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect } from 'react';
 import { columnsProcedures } from "./ColumnsProcedures";
 import { IProcedure } from '../interface/procedures';
+import NewProcedures from './newProcedures';
 
 export const TableProcedures = (props: { data: IProcedure[], pagination: any, setPagination: (pagination: any) => void }) => {
   const { data, pagination, setPagination } = props;
@@ -127,7 +128,8 @@ export const TableProcedures = (props: { data: IProcedure[], pagination: any, se
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button asChild><Link href="/dashboard/userManagement/new">Crear Procedimiento</Link></Button>
+        {/* <Button asChild><Link href="/dashboard/userManagement/new">Crear Procedimiento</Link></Button> */}
+        <NewProcedures/>
       </div>
       <div className="rounded-md border">
         <Table>

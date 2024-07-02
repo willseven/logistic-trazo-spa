@@ -32,6 +32,10 @@ export type Rol = {
   icon?: any
   active?: boolean
 }
+export type Procedure = {
+  id: number
+  name?: string
+}
 
 export type Company = {
   id: number
