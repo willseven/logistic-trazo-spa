@@ -100,7 +100,7 @@ const NewRol = () => {
       <DialogTrigger asChild>
         <Button variant="outline">Crear Rol</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
           <DialogTitle>Crear Nuevo Rol</DialogTitle>
         </DialogHeader>
@@ -192,7 +192,10 @@ const NewRol = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Crear</Button>
+              <div className="mt-2 flex justify-end" >
+
+              <Button  type="submit">Crear Rol</Button>
+              </div>
             </form>
           </Form>
         </ScrollArea>
