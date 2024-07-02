@@ -15,11 +15,7 @@ export const useUserStore = create<UserSlice & RoleSlice & MenuSlice>()(
         ...userSlice,
         ...roleSlice,
         ...menuSlice,
-        logout: () => {
-          userSlice.logout();
-          roleSlice.logout();
-          menuSlice.logout();
-        },
+        
       };
     },
     { name: "user-storage" }

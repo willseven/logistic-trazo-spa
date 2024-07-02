@@ -13,6 +13,7 @@ import RolesSelect from "./RolesSelect";
 import { useUserStore } from "@/lib/store";
 import { useMenuList } from "@/hooks/useMenuList";
 import img from "../../images/noxun.jpg";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
   }));
 
   const { data: roleMenu } = useMenuList(currentRole?.id.toString());
-
+  const router = useRouter();
   useEffect(() => {
     if (roleMenu) {
       setMenuList(roleMenu.menuList);
@@ -106,6 +107,10 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   <button
                     className="block w-full text-left px-4 py-2  hover:bg-secondary"
                     onClick={() => {
+                      localStorage.removeItem("token");
+                      localStorage.removeItem("id");
+                      router.push("../auth/login");
+
 
                     }}
                   >
