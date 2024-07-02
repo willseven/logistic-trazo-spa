@@ -1,6 +1,8 @@
 import { RegisterUserForm } from "@/app/dashboard/userManagement/new/RegisterUserForm";
 import { api } from "./api";
-import { Rol, UpdateUserResponse } from "./types";
+import { CompanyResponse, Menu, Rol, UpdateUserResponse } from "./types";
+import { NewCompany } from "@/app/dashboard/manage-company/new/CreateNewCompanyForm";
+import { NewMenu } from "@/app/dashboard/MenuRegister/new/CreateNewMenuForm";
 
 /**
  * Sets the authorization token in the Axios instance headers.
@@ -27,12 +29,44 @@ export async function fetchRoles(): Promise<Rol[]> {
     token = localStorage.getItem("token");
   }
   setAuthToken(token);
-  const response = await api.get("rol", {
+  const response = await api.get("/rol", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
   return response.data;
+}
+
+export async function fetchCompanies(): Promise<CompanyResponse[]>{
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+
+  const response = await api.get('/Company', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data
+}
+
+export async function fetchMenus(): Promise<Menu[]>{
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+
+  const response = await api.get('/Menu', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  return response.data
 }
 
 export async function postUser(data: RegisterUserForm) {
@@ -42,6 +76,34 @@ export async function postUser(data: RegisterUserForm) {
   }
   setAuthToken(token);
   const response = await api.post("/Auth/register", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function postCompany(data: NewCompany) {
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+  const response = await api.post("/Company/register", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function postMenu(data: NewMenu) {
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+  const response = await api.post("/Menu", data, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
