@@ -27,6 +27,7 @@ export default function RolesSelect() {
         });
 
         const menuList = response.data.menuList;
+        console.log(response)
         setMenuList(menuList);
 
         if (menuList.length > 0) {

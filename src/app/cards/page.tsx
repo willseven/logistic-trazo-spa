@@ -1,6 +1,6 @@
 "use client";
 import { Boxes } from "@/components/ui/background-boxes";
-import Cards from "./Cards";
+import Cards from "../../modules/cards/Cards";
 import { cn } from "@/lib/utils";
 
 export default function CardsPage() {

@@ -27,7 +27,7 @@ export type User = {
 
 export type Rol = {
   id: number
-  name?: string
+  name: string 
   label: string
   icon?: any
   active?: boolean
