@@ -70,7 +70,8 @@ export default function LoginForm() {
 
 
       useUserStore.getState().setMenuList(roleMenuResponse.data.menuList);
-      router.push(`../dashboard/${roleMenuResponse.data.menuList[0].name}`);
+      // router.push(`../dashboard/${roleMenuResponse.data.menuList[0].name}`);
+      router.push(`../cards`);
     } catch (error) {
       console.log(error);
     }
