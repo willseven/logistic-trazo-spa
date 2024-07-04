@@ -45,7 +45,7 @@ export default function AddUserFileButton({ id }: { id: string }) {
     },
   });
 
-  console.log(addUserFileForm.formState.errors);
+  // console.log(addUserFileForm.formState.errors);
 
   function onSubmit(values: UserFileSchema) {
     console.log(values);

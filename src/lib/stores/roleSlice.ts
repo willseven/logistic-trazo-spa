@@ -6,6 +6,7 @@ export type RoleSlice = {
   currentRole: Rol | null,
   setRoles: (roles:Rol[]) => void,
   setCurrentRole: (role:Rol | null) => void,
+  
 }
 
 export const createRoleSlice: StateCreator<RoleSlice> = (set) => ({

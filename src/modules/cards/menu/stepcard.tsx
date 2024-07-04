@@ -8,10 +8,10 @@ export function CardHover() {
         setCurrentRole: state.setCurrentRole,
         setMenuList: state.setMenuList,
       }));
-      console.log(roles)
+      // console.log(roles)
   return (
     <div className="max-w-5xl mx-auto px-9">
-      <HoverEffect items={roles} />
+      <HoverEffect roles={roles} />
     </div>
   );
 }

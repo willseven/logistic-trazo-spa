@@ -28,6 +28,7 @@ const ManageUsers = () => {
       });
 
       const paginationHeader = JSON.parse(response.headers.pagination);
+      
       setPagination(prev => ({ ...prev, ...paginationHeader }));
 
       return response.data;

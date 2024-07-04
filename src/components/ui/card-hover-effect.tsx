@@ -7,14 +7,21 @@ import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
 export const HoverEffect = ({
-  items,
+  roles,
   className,
 }: {
-  items: Rol[] | null;
+  roles: Rol[] | null;
   className?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const router = useRouter();
+
+  const { setMenuList, setCurrentRole } = useUserStore((state) => ({
+    
+    setMenuList: state.setMenuList,
+    setCurrentRole: state.setCurrentRole,
+  }));
+
 
   const responseMenu = async (id: number): Promise<any[]> => {
     try {
@@ -24,7 +31,7 @@ export const HoverEffect = ({
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("Response:", roleMenuResponse);
+      
 
       const menuList = roleMenuResponse.data.menuList || [];
       console.log("Menu List:", menuList);
@@ -35,12 +42,17 @@ export const HoverEffect = ({
     }
   };
 
-  const redirectToFirstMenuItem = async (id: number) => {
+
+
+  const redirectToFirstMenuItem = async (rol: Rol) => {
     try {
-      const menus = await responseMenu(id);
+      setCurrentRole(rol);
+      const menus = await responseMenu(rol.id);
       console.log("Menus:", menus);
       if (menus && menus.length > 0) {
         const firstItemUrl = menus[0].name;
+        console.log()
+        setMenuList(menus);
         router.push(`../dashboard/${firstItemUrl}`);
       } else {
         console.error("No hay items en el menú");
@@ -57,10 +69,10 @@ export const HoverEffect = ({
         className
       )}
     >
-      {items?.map((item, idx) => (
+      {roles?.map((rol, idx) => (
         <div
-          onClick={() => redirectToFirstMenuItem(item?.id)} // Aquí está la corrección
-          key={item?.name}
+          onClick={() => redirectToFirstMenuItem(rol)} // Aquí está la corrección
+          key={rol?.name}
           className="relative group block p-2 h-full w-full cursor-pointer"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -83,7 +95,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.label}</CardTitle>
+            <CardTitle>{rol.label}</CardTitle>
             <CardDescription>Rol {idx + 1}</CardDescription>
           </Card>
         </div>

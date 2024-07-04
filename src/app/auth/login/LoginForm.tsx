@@ -61,6 +61,7 @@ export default function LoginForm() {
       const firstRole = user.rols[0];
       console.log(firstRole)
       useUserStore.getState().setCurrentRole(firstRole);
+      
 
       const roleMenuResponse = await api.get(`/Rol/${firstRole.id}/Menu`, {
         headers: {
