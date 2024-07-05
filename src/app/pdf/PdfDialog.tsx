@@ -9,13 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import PdfDocument from "./PdfDocument";
+import Logaalcargo from "./Logaalcargo";
 
 export default function PdfDialog() {
   return (
     <Dialog>
       <DialogTrigger>Open</DialogTrigger>
       <DialogContent className="sm:max-w-[600px] h-[500px]">
-        <PdfDocument/>
+        <Logaalcargo/>
       </DialogContent>
     </Dialog>
   );
