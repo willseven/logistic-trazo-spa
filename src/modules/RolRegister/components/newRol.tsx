@@ -39,10 +39,19 @@ export const registerRolSchema = z.object({
     })
   ),
 });
-const token = localStorage.getItem("token");
+//const token = localStorage.getItem("token");
 type RegisterRolForm = z.infer<typeof registerRolSchema>;
 
 const NewRol = () => {
+
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+    id = localStorage.getItem("id");
+  }
+
   const registerRolForm = useForm<RegisterRolForm>({
     resolver: zodResolver(registerRolSchema),
     defaultValues: {

@@ -21,8 +21,14 @@ interface ProcedureType {
 }
 
 const HandleSteps = () => {
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
+
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+    id = localStorage.getItem("id");
+  }
   const [procedureTypeId, setProcedureTypeId] = useState<number | null>(null);
 
   const { data, isLoading, isError, error } = useQuery<ProcedureType[]>({

@@ -8,8 +8,13 @@ import Link from "next/link";
 import { useState } from "react";
 
 const UserManagement = () => {
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+    id = localStorage.getItem("id");
+  }
   
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);

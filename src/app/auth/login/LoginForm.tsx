@@ -54,8 +54,12 @@ export default function LoginForm() {
 
       useUserStore.getState().setUserResponse(user);
       useUserStore.getState().setRoles(user.rols);
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("id", id.toString());
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", user.token);
+        localStorage.setItem("id", id.toString());
+      }
+
       const firstRole = user.rols[0];
       useUserStore.getState().setCurrentRole(firstRole);
 
@@ -142,7 +146,7 @@ export default function LoginForm() {
   );
 }
 
-function MountainIcon(props:any) {
+function MountainIcon(props: any) {
   return (
     <svg
       {...props}

@@ -9,8 +9,13 @@ import { useState } from "react";
 import { TableRol } from '../../../modules/RolRegister/components/TableRol';
 
 const RolRegister = () => {
-  const token = localStorage.getItem("token");
-  // const id = localStorage.getItem("id");
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = window.localStorage.getItem("token");
+    id = window.localStorage.getItem("id");
+  }
 
 
   const { data, isPending, isError, error } = useQuery({

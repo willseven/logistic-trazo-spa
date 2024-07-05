@@ -8,8 +8,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 const ManageUsers = () => {
-  const token = localStorage.getItem("token");
-  const id = localStorage.getItem("id");
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+    id = localStorage.getItem("id");
+  }
   
   const [pagination, setPagination] = useState({
     currentPage: 1, 

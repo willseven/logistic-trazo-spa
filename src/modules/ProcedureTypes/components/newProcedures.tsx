@@ -35,10 +35,19 @@ export const registerProceduresSchema = z.object({
   name: z.string().min(2).max(50),
 
 });
-const token = localStorage.getItem("token");
+//const token = localStorage.getItem("token");
 type RegisterProceduresForm = z.infer<typeof registerProceduresSchema>;
 
 const NewProcedures = () => {
+
+  let token: string | null = null;
+  let id: string | null = null;
+
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+    id = localStorage.getItem("id");
+  }
+
   const registerProceduresForm = useForm<RegisterProceduresForm>({
     resolver: zodResolver(registerProceduresSchema),
     defaultValues: {

@@ -36,8 +36,14 @@ import { columnsUser } from './columnsUser';
 import { IUser } from "../interface/users";
 import { useState, useEffect } from 'react';
 
-export const TableUsers = (props: { data: IUser[], pagination: any, setPagination: (pagination: any) => void }) => {
-  const { data, pagination, setPagination } = props;
+
+type TableUsersProps = {
+  data: IUser[]
+  pagination: any
+  setPagination: (pagination: any) => void
+}
+
+export const TableUsers = ({data, pagination, setPagination}: TableUsersProps) => {
   const columns = columnsUser;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
