@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+import { HoverEffectStep } from './hoverEffect';
 
 interface Step {
   id: number;
   name: string;
 }
-
 
 export const ListStep = (props: { procedureTypeId: number }) => {
   const { procedureTypeId } = props;
@@ -35,29 +35,11 @@ export const ListStep = (props: { procedureTypeId: number }) => {
     <div className="flex flex-col items-center mt-5">
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error: {error?.message}</div>}
-      {data && (<div className="flex flex-col items-center">
-        <div className="group relative">
-          <div className="bg-foreground text-background rounded-full px-5 py-0.5">
-            Inicio
-          </div>
-          <Button
-            
-            className="absolute z-20 top-0 -right-6 invisible group-hover:visible
-           px-2.5 py-1 text-sm bg-[#5f5f5fc9] text-white"
-          >
-            <i className="fas fa-plus"></i>
-          </Button>
+      {data && (
+        <div className="flex flex-col items-center">
+          <HoverEffectStep items={data}/>
+          {/* {data ? data.map((step) => <h1 key={step.id}>{step.name}</h1>) : null} */}
         </div>
-        <div className="w-[1px] h-3 border border-black"></div>
-        {data
-  ? data.map((step) => (
-      <h1 key={step.id}>{step.name}</h1>
-    ))
-  : null}
-        <div className="bg-foreground text-background rounded-full px-5 py-0.5 mb-4">
-          Fin
-        </div>
-      </div>
       )}
     </div>
   );

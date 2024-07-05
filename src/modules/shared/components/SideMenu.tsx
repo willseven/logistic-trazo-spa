@@ -81,7 +81,7 @@ export const SideMenu = () => {
           }
         </ul>
       </nav>
-      <PageTheme />
+      {/* <PageTheme /> */}
     </div>
   );
 };

@@ -49,7 +49,7 @@ const UserManagement = () => {
         <TableUsers 
           data={data} 
           pagination={pagination} 
-          setPage={setPage} 
+          setPagination={setPage} 
         />
       </section>
     </div>
