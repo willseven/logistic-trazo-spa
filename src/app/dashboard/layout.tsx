@@ -11,6 +11,10 @@ import { useMenuList } from "@/hooks/useMenuList";
 import img from "../../images/noxun.jpg";
 import { useRouter } from "next/navigation";
 import { Menu } from "lucide-react";
+import { FaPlaneDeparture } from "react-icons/fa";
+import { IoIosBoat } from "react-icons/io";
+import { FaTruck } from "react-icons/fa";
+import { FaBoxesPacking } from "react-icons/fa6";
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -35,6 +39,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
         <div className="px-2 py-2 lg:px-5 lg:pl-3">
           <div className="grid grid-cols-4 items-center">
             <div className="flex items-center justify-start">
+
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" className="lg:hidden mr-2 p-2 rounded">
@@ -56,6 +61,11 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                 <Image src={img} width={100} height={50} alt="Logo" />
               </Link>
               </div>
+              <FaPlaneDeparture className="text-white w-8 h-8"/>
+              <IoIosBoat className="text-white w-8 h-8" />
+              <FaTruck className="text-white w-8 h-8" />
+              <FaBoxesPacking  className="text-white w-8 h-8"/>
+
             </div>
             <div className="flex col-span-2 justify-start">
               <RolesSelect />
