@@ -63,12 +63,9 @@ export const HoverEffect = ({
   };
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10",
-        className
-      )}
-    >
+    
+    <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10", className)}>
+    
       {roles?.map((rol, idx) => (
         <div
           onClick={() => redirectToFirstMenuItem(rol)} // Aquí está la corrección
@@ -112,12 +109,10 @@ export const Card = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div
-      className={cn(
-        "rounded-2xl h-full w-full px-15 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 flex items-center justify-center",
-        className
-      )}
-    >
+    <div className={cn(
+      "rounded-2xl h-full w-full px-8 md:px-15 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 flex items-center justify-center",
+      className
+    )}>
       <div className="relative z-50 text-center">
         <div className="p-4">{children}</div>
       </div>

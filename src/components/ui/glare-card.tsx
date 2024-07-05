@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import { useRef } from "react";
-cn
+
 export const GlareCard = ({
   children,
   className,
@@ -24,6 +24,7 @@ export const GlareCard = ({
       y: 0,
     },
   });
+
   const containerStyle = {
     "--m-x": "50%",
     "--m-y": "50%",
@@ -54,20 +55,20 @@ export const GlareCard = ({
 
   const updateStyles = () => {
     if (refElement.current) {
-      console.log(state.current);
       const { background, rotate, glare } = state.current;
-      refElement.current?.style.setProperty("--m-x", `${glare.x}%`);
-      refElement.current?.style.setProperty("--m-y", `${glare.y}%`);
-      refElement.current?.style.setProperty("--r-x", `${rotate.x}deg`);
-      refElement.current?.style.setProperty("--r-y", `${rotate.y}deg`);
-      refElement.current?.style.setProperty("--bg-x", `${background.x}%`);
-      refElement.current?.style.setProperty("--bg-y", `${background.y}%`);
+      refElement.current.style.setProperty("--m-x", `${glare.x}%`);
+      refElement.current.style.setProperty("--m-y", `${glare.y}%`);
+      refElement.current.style.setProperty("--r-x", `${rotate.x}deg`);
+      refElement.current.style.setProperty("--r-y", `${rotate.y}deg`);
+      refElement.current.style.setProperty("--bg-x", `${background.x}%`);
+      refElement.current.style.setProperty("--bg-y", `${background.y}%`);
     }
   };
+
   return (
     <div
       style={containerStyle}
-      className="relative isolate [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform w-[320px] [aspect-ratio:17/21]"
+      className="relative isolate [contain:layout_style] [perspective:600px] transition-transform duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-transform sm:w-[400px] sm:aspect-[17/21] md:w-[480px] md:aspect-[16/20] lg:w-[450px] lg:aspect-[16/18]"
       ref={refElement}
       onPointerMove={(event) => {
         const rotateFactor = 0.4;
@@ -124,8 +125,8 @@ export const GlareCard = ({
         </div>
         <div className="w-full h-full grid [grid-area:1/1] mix-blend-soft-light [clip-path:inset(0_0_1px_0_round_var(--radius))] opacity-[var(--opacity)] transition-opacity transition-background duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] will-change-background [background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),_rgba(255,255,255,0.8)_10%,_rgba(255,255,255,0.65)_20%,_rgba(255,255,255,0)_90%)]" />
         <div
-          className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-[var(--opacity)] will-change-background transition-opacity [clip-path:inset(0_0_1px_0_round_var(--radius))] [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),_var(--rainbow),_var(--diagonal),_var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-[inherit] after:mix-blend-exclusion after:[background-size:var(--foil-size),_200%_400%,_800%,_200%] after:[background-position:center,_0%_var(--bg-y),_calc(var(--bg-x)*_-1)_calc(var(--bg-y)*_-1),_var(--bg-x)_var(--bg-y)] after:[background-blend-mode:soft-light,_hue,_hard-light]"
-          style={{ ...backgroundStyle }}
+          className="w-full h-full grid [grid-area:1/1] mix-blend-color-dodge opacity-[var(--opacity)] will-change-background transition-opacity [clip-path:inset(0_0_1px_0_round_var(--radius))] [background-blend-mode:hue_hue_hue_overlay] [background:var(--pattern),_var(--rainbow),_var(--diagonal),_var(--shade)] relative after:content-[''] after:grid-area-[inherit] after:bg-repeat-[inherit] after:bg-attachment-[inherit] after:bg-origin-[inherit] after:bg-clip-[inherit] after:bg-[inherit] after:mix-blend-exclusion after:[background:radial-gradient(farthest-corner_circle_at_var(--m-x)_var(--m-y),_rgba(255,255,255,0.1)_12%,_rgba(255,255,255,0.15)_20%,_rgba(255,255,255,0.25)_120%)]"
+          style={backgroundStyle}
         />
       </div>
     </div>

@@ -69,8 +69,8 @@ export const SideMenu = () => {
           ))}
         </ul>
         <ul>
-          { data.map((step)=>{
-            return step.processSteps.map((process)=>{
+          { data.map((step:any)=>{
+            return step.processSteps.map((process:any)=>{
               return (<li key= {process.id}>
 
                  {process.name}

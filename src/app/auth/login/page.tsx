@@ -10,13 +10,13 @@ const World = dynamic(() =>
 export default function LoginPage() {
   return (
     <main className="bg-black flex justify-center items-center h-screen">
-      <div className="grid grid-cols-2 gap-8 w-full max-w-4xl">
-        <LoginForm />
-        <div className="flex justify-center items-center">
-          <World data={sampleArcs} globeConfig={globeConfig} />
-        </div>
-      </div>
-    </main>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 w-full max-w-4xl">
+    <LoginForm />
+    <div className="hidden sm:flex justify-center items-center">
+      <World data={sampleArcs} globeConfig={globeConfig} />
+    </div>
+  </div>
+</main>
   );
 }
 
