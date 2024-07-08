@@ -63,7 +63,7 @@ const HandleSteps = () => {
             console.log(value);
           }}
         >
-          <SelectTrigger className="bg-secondary border w-2/3 md:w-1/3 text-prim text-md rounded-lg block px-2.5 py-2">
+          <SelectTrigger className="bg-secondary border w-2/3 md:w-1/3 text-prim text-md rounded-lg block px-2.5 py-2"  hideIcon>
             <SelectValue placeholder="Seleccionar" />
           </SelectTrigger>
 

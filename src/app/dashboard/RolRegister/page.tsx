@@ -37,7 +37,7 @@ const RolRegister = () => {
   });
   if (isPending) return "Pending...";
   if (isError) return `Error: ${error.message}`;
-  console.log(data)
+  // console.log(data)
 
   return (
     <div>

@@ -16,6 +16,7 @@ import { IoIosBoat } from "react-icons/io";
 import { FaTruck } from "react-icons/fa";
 import { FaBoxesPacking } from "react-icons/fa6";
 
+
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 

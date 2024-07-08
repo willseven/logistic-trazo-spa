@@ -43,15 +43,18 @@ export default function RolesSelect() {
   }
 
   return (
+    <div style={{width: '300px'}}>
     <Select
-      //defaultValue averiguar mas como funciona ese prop
-      className="my-react-select-container"
-      classNamePrefix="my-react-select"
-      isSearchable={false}
-      options={roles}
-      getOptionLabel={(role) => role.label}
-      getOptionValue={(role) => role.id.toString()}
-      onChange={(selectedOption) => handleChange(selectedOption as Rol)}
+    //defaultValue averiguar mas como funciona ese prop
+    className="my-react-select-container"
+    classNamePrefix="my-react-select"
+    isSearchable={false}
+    options={roles}
+    getOptionLabel={(role) => role.label}
+    getOptionValue={(role) => role.id.toString()}
+    onChange={(selectedOption) => handleChange(selectedOption as Rol)}
     />
+    </div>
+    
   );
 }
