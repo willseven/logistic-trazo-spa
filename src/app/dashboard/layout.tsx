@@ -9,7 +9,7 @@ import RolesSelect from "./RolesSelect";
 import { useUserStore } from "@/lib/store";
 import { useMenuList } from "@/hooks/useMenuList";
 import img from "../../images/noxun.jpg";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Menu } from "lucide-react";
 import { FaPlaneDeparture } from "react-icons/fa";
 import { IoIosBoat } from "react-icons/io";
@@ -18,6 +18,7 @@ import { FaBoxesPacking } from "react-icons/fa6";
 
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
+  const params = useSearchParams();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const { currentRole, setMenuList } = useUserStore((state) => ({
@@ -32,6 +33,10 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
       setMenuList(roleMenu.menuList);
     }
   }, [roleMenu, setMenuList]);
+
+
+ 
+  
 
   return (
     <>

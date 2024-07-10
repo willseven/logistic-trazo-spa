@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,8 +40,11 @@ export default function LoginForm() {
     },
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   async function onSubmit(values: LoginForm) {
     console.log(values);
+    setIsLoading(true);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/Auth/login`,
@@ -70,10 +74,12 @@ export default function LoginForm() {
       });
 
       useUserStore.getState().setMenuList(roleMenuResponse.data.menuList);
-      // router.push(`../dashboard/${roleMenuResponse.data.menuList[0].name}`);
-      router.push(`../cards`);
+      router.push(`../dashboard/${roleMenuResponse.data.menuList[0].name}`);
+      // router.push(`../cards`);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -137,8 +143,9 @@ export default function LoginForm() {
           <Button
             className="w-full bg-primary-foreground text-primary hover:bg-accent hover:text-accent-foreground"
             type="submit"
+            disabled={isLoading}
           >
-            Ingresar
+            {isLoading ? "Cargando..." : "Ingresar"}
           </Button>
         </form>
       </Form>

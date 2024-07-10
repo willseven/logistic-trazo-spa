@@ -19,13 +19,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { usePathname, useSearchParams } from "next/navigation";
+import { BsArrowUpRightSquareFill, BsArrowUpRightSquare } from "react-icons/bs";
 
 export const SideMenu = () => {
   // const { menuList, currentRole } = useUserStore((state) => ({
   //   menuList: state.menuList,
   //   currentRole: state.currentRole,
   // }));
-
+  const pathname = usePathname();
   const menuList = useStore(useUserStore, (state) => state.menuList);
   const currentRole = useStore(useUserStore, (state) => state.currentRole);
   const [currentRoleisReady, setcurrentRoleisReady] = useState(false);
@@ -63,12 +65,22 @@ export const SideMenu = () => {
         <ul>
           {menuList?.map((menuItem) => (
             <li key={menuItem.id}>
+              <div className="flex gap-4">
+              {pathname.includes(menuItem.name) ? (
+                <BsArrowUpRightSquareFill className="h-6 w-6 text-center mt-3" />
+              ) : (
+                <BsArrowUpRightSquare className="h-6 w-6 text-center mt-3" />
+              )}
               <Link
-                className="flex items-center p-2 hover:bg-gray-200 rounded-md"
+                className={`flex items-center text-xl p-2 rounded-md hover:bg-gray-200 ${
+                  pathname.includes(menuItem.name) ? 'bg-gray-300' : '' // Resaltado si coincide
+                }`}
                 href={`/dashboard/${menuItem.name}`}
-              >
+                >
                 {menuItem.label}
+                
               </Link>
+                  </div>
             </li>
           ))}
         </ul>
