@@ -7,9 +7,22 @@ import {
   StyleSheet,
   PDFViewer,
   Image,
+  Font,
+  Link,
 } from "@react-pdf/renderer";
 import { Fragment } from "react";
 import { createTw } from "react-pdf-tailwind";
+
+Font.register({
+  family: "PlaywriteCU",
+  fonts: [
+    {
+      src: "/fonts/PlaywriteCU-Regular.ttf",
+      fontWeight: 400,
+      fontStyle: "normal",
+    },
+  ],
+});
 
 const tw = createTw({});
 
@@ -17,8 +30,8 @@ export default function PdfLogaalcargo() {
   return (
     <PDFViewer className="w-full h-full">
       <Document>
-        <Page size="LETTER" style={tw("p-4 text-sm")}>
-          <Image src="/images/customsBanner.png" />
+        <Page size="LETTER" style={tw("p-4 text-xs")}>
+          <Image src="/images/customsBanner.png" style={tw("h-20")} />
           <View style={tw("w-full flex flex-row justify-end")}>
             <View
               style={tw("flex flex-row bg-slate-300 w-96 justify-evenly my-2")}
@@ -154,8 +167,59 @@ export default function PdfLogaalcargo() {
             </View>
             <TableRows rows={rows} />
           </View>
-          <View></View>
-          <View style={tw("flex flex-row w-full text-xs")}>
+          <View style={tw("w-full flex flex-row relative")}>
+            <View style={tw("w-2/3")}>
+              <View style={tw("flex items-end mt-20")}>
+                <View style={tw("flex items-center")}>
+                  <Text style={tw("border-t pt-1")}>NOMBRE Y FIRMA DEL CLIENTE</Text>
+                  <Text>La aceptacion del cliente</Text>
+                </View>
+              </View>
+            </View>
+            <View style={tw("w-1/3 flex")}>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text>Subtotal</Text>
+                <Text>$1.20</Text>
+              </View>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text>Imponible</Text>
+                <Text>$0.00</Text>
+              </View>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text>Impuesto %</Text>
+                <Text>$0.00</Text>
+              </View>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text>Total Impuesto</Text>
+                <Text>$0.00</Text>
+              </View>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text>Otros</Text>
+                <Text>$0.00</Text>
+              </View>
+              <View style={tw("flex-auto flex justify-evenly flex-row")}>
+                <Text style={tw("border-t")}>TOTAL</Text>
+                <View style={tw("bg-slate-300 w-1/2 flex flex-row items-center justify-center")}>
+                  <Text>$0.00</Text>
+                </View>
+              </View>
+            </View>
+            <Link src="https://www.facebook.com/logaalcargo?mibextid=ZbWKwL" style={tw("absolute bottom-2 left-4")}>
+              <Image src="/images/facebook.png" style={tw("h-20 w-20")}/>
+            </Link>
+            <Image src="/images/flecha_facebook.png" style={tw("absolute w-[400px] h-32 left-20 bottom-5")}/>
+            <Image src="/images/montacargas.png" style={tw("h-20 w-24 absolute bottom-32 left-[440px]")}/>
+          </View>
+          <View
+            style={[
+              { fontFamily: "PlaywriteCU",
+                fontSize: 8
+               },
+              tw(
+                "flex flex-row w-full leading-loose text-blue-600 border-y py-2 mt-2"
+              ),
+            ]}
+          >
             <Text>
               FORMA DE PAGO: Marítimo: Al contado 10 días antes del arribo.
               Terrestre: Al contado, a la llegada del contenedor a la Aduana.
