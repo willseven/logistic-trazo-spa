@@ -42,7 +42,7 @@ export default function ManageProcedures() {
 
   return (
     <div>
-    <h1 className="flex items-center justify-center font-bold text-xl">Roles</h1>
+    <h1 className="flex items-center justify-center font-bold text-xl">Trámites</h1>
     <section>
       <TableProcedure
         data={data ?? []} 

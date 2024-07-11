@@ -44,7 +44,7 @@ export const TableProcedure = (props: { data: IManageProcedure[]}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filterValue, setFilterValue] = useState("");
-  const [filterColumn, setFilterColumn] = useState("name");
+  const [filterColumn, setFilterColumn] = useState("companyName");
 
   const table = useReactTable({
     data,

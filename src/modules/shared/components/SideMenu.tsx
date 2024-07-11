@@ -19,7 +19,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams,} from "next/navigation";
 import { BsArrowUpRightSquareFill, BsArrowUpRightSquare } from "react-icons/bs";
 
 export const SideMenu = () => {
@@ -28,6 +28,8 @@ export const SideMenu = () => {
   //   currentRole: state.currentRole,
   // }));
   const pathname = usePathname();
+  const params = useSearchParams();
+  const currentStep = params.get("step");
   const menuList = useStore(useUserStore, (state) => state.menuList);
   const currentRole = useStore(useUserStore, (state) => state.currentRole);
   const [currentRoleisReady, setcurrentRoleisReady] = useState(false);
@@ -37,6 +39,9 @@ export const SideMenu = () => {
       setcurrentRoleisReady(true);
     }
   }, [currentRole]);
+
+
+
 
   const { data, isLoading, isPending, isError, error } = useQuery({
     queryKey: ["stepsAll"],
@@ -67,13 +72,13 @@ export const SideMenu = () => {
             <li key={menuItem.id}>
               <div className="flex gap-4">
               {pathname.includes(menuItem.name) ? (
-                <BsArrowUpRightSquareFill className="h-6 w-6 text-center mt-3" />
+                <BsArrowUpRightSquareFill className="h-5 w-5 text-center mt-2" />
               ) : (
-                <BsArrowUpRightSquare className="h-6 w-6 text-center mt-3" />
+                <BsArrowUpRightSquare className="h-5 w-5 text-center mt-2" />
               )}
               <Link
-                className={`flex items-center text-xl p-2 rounded-md hover:bg-gray-200 ${
-                  pathname.includes(menuItem.name) ? 'bg-gray-300' : '' // Resaltado si coincide
+                className={`flex items-center p-2 rounded-md hover:bg-gray-200 ${
+                  pathname.includes(menuItem.name) ? 'bg-gray-300' : '' 
                 }`}
                 href={`/dashboard/${menuItem.name}`}
                 >
@@ -88,29 +93,24 @@ export const SideMenu = () => {
           {data.length > 0 &&
             data.map((typeofsteps: any) => {
               if (typeofsteps.processSteps.length > 0) {
+                
                 return (
                   <Accordion type="single" collapsible key={typeofsteps.name}>
                     <AccordionItem value={typeofsteps.name}>
                       <AccordionTrigger>{typeofsteps.name}</AccordionTrigger>
                       <ul>
                         {typeofsteps.processSteps.map((process: any) => {
+                          const isCurrentStep = currentStep === process.step.toString();
                           return (
                             <li key={process.id}>
-                              <Link href={`/dashboard/ManageProcedures/step?step=${process.step}&id=${process.id}&currentRoleId=${currentRole?.id}  `}>
-                                <AccordionContent className="text-lg hover:bg-gray-200 rounded-md">
-                                  { <div className="flex gap-2">
-                                    <div>
-
-                                    {process.step}.
-                                    </div>
-                                     <div>
-                                     {process.name}
-                                     </div>
-                                      
+                              <Link href={`/dashboard/ManageProcedures/step?step=${process.step}&id=${typeofsteps.id}&currentRoleId=${currentRole?.id}`}>
+                                <AccordionContent
+                                  className={`hover:bg-gray-200 rounded-md ${isCurrentStep ? 'bg-gray-300' : ''}`}
+                                >
+                                  <div className="flex  gap-2 justify-center py-1">
+                                    {/* <div>{process.step}.</div> */}
+                                    <div>{process.name}</div>
                                   </div>
-
-
-                                  }
                                 </AccordionContent>
                               </Link>
                             </li>

@@ -31,7 +31,7 @@ export default function RolesSelect() {
         setMenuList(menuList);
 
         if (menuList.length > 0) {
-          router.push(`../dashboard/${menuList[0].name}`);
+          router.push(`/dashboard/${menuList[0].name}`);
         } else {
           toast.error("El rol seleccionado no tiene menús disponibles.");
         }
