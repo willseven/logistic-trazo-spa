@@ -83,11 +83,19 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
       header:"Acciones" ,
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original
+        const payment = row.original;
+        console.log(payment.companyName)
   
         return (
         <div className="flex gap-2 justify-center">
-            <Button variant="outline" size="icon">
+
+            
+            
+            <Button  size="icon">
+                <Printer className="h-4 w-4" />
+            </Button>
+
+            {/* <Button variant="outline" size="icon">
                 <Printer className="h-4 w-4" />
             </Button>
             <Button variant="outline" size="icon">
@@ -95,10 +103,7 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
             </Button>
             <Button variant="outline" size="icon">
                 <Printer className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon">
-                <Printer className="h-4 w-4" />
-            </Button>
+            </Button> */}
         </div>
         )
       },

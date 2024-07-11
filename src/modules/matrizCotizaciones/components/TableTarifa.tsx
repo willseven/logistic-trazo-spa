@@ -50,7 +50,7 @@ interface MatrizData {
   terrestre?: string;
   maritimo?: string;
   aereo?: string;
-  lcl?: string;
+  multimodal?: string;
 }
 
 interface FieldWithData {
@@ -94,7 +94,7 @@ export const TableTarifa = (props: { data: ITarifa[] }) => {
     }
   
     // Define los campos de interés
-    const fieldsToDisplay: (keyof MatrizData)[] = ['terrestre', 'maritimo', 'aereo', 'lcl'];
+    const fieldsToDisplay: (keyof MatrizData)[] = ['terrestre', 'maritimo', 'aereo', 'multimodal'];
     
     // Filtra los campos de interés que tienen datos
     const fieldsWithData = fieldsToDisplay

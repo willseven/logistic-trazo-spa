@@ -49,7 +49,7 @@ export const projects = [
     image: "FaTruck ",
   },
   {
-    title: "LCL",
+    title: "Multimodal",
     description:
       "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
     link: "/images/noxun.jpg",

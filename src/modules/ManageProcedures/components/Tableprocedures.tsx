@@ -35,8 +35,8 @@ import { Input } from "@/components/ui/input";
 import { columnsMAnageProcedure } from './columnsManageProcedures';
 
 import { useState, useEffect } from 'react';
-// import NewRol from './newRol';
 import { IManageProcedure } from '../interface/manageprocedure';
+import NewCotizacion from './newCotizacion';
 
 export const TableProcedure = (props: { data: IManageProcedure[]}) => {
   const { data } = props;
@@ -105,13 +105,13 @@ export const TableProcedure = (props: { data: IManageProcedure[]}) => {
             </SelectGroup>
           </SelectContent>
         </Select>
-
-        {/* <NewRol /> */}
+    
+        <NewCotizacion/>
         {/* <Button asChild><Link href="/dashboard/userManagement/new">Crear Rol</Link></Button> */}
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border ">
         <Table>
-          <TableHeader>
+          <TableHeader className="items-center">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (

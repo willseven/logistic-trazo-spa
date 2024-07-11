@@ -35,9 +35,9 @@ const registerMatrizSchema = z.object({
   terrestre: z.string().optional(),
   maritimo: z.string().optional(),
   aereo: z.string().optional(),
-  lcl: z.string().optional(),
-}).refine(data => data.terrestre || data.maritimo || data.aereo || data.lcl, {
-  message: "Debe llenar al menos uno de los campos: Terrestre, Marítimo, Aéreo o LCL",
+  multimodal: z.string().optional(),
+}).refine(data => data.terrestre || data.maritimo || data.aereo || data.multimodal, {
+  message: "Debe llenar al menos uno de los campos: Terrestre, Marítimo, Aéreo o multimodal",
   path: ["terrestre"], // Esto muestra el mensaje en el campo "terrestre", pero puede ser cualquier otro
 });
 //const token = localStorage.getItem("token");
@@ -61,7 +61,7 @@ const NewTarifa = () => {
       terrestre: "",  
       maritimo: "",  
       aereo: "",    
-      lcl: "", 
+      multimodal: "", 
     },
   });
 
@@ -102,7 +102,7 @@ const NewTarifa = () => {
 
   function onSubmit(values: RegisterMatrizForm) {
     // console.log("Valores del formulario:", values);
-    const { origen, destino, terrestre, maritimo, aereo, lcl } = values;
+    const { origen, destino, terrestre, maritimo, aereo, multimodal } = values;
     const formattedData = {
       name: `${origen} a ${destino}`,
       data: JSON.stringify({
@@ -111,7 +111,7 @@ const NewTarifa = () => {
         terrestre,
         maritimo,
         aereo,
-        lcl,
+        multimodal,
       }),
       type: "cotizacion",
       DropdownListLabel:"matrizCotizaciones"
@@ -203,12 +203,12 @@ const NewTarifa = () => {
               />
               <FormField
                 control={registerMatrizForm.control}
-                name="lcl"
+                name="multimodal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Costo LCL</FormLabel>
+                    <FormLabel>Costo multimodal</FormLabel>
                     <FormControl>
-                      <Input placeholder="Costo LCL" {...field} />
+                      <Input placeholder="Costo multimodal" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
