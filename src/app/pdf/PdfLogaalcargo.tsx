@@ -7,9 +7,23 @@ import {
   StyleSheet,
   PDFViewer,
   Image,
+  Font
 } from "@react-pdf/renderer";
 import { Fragment } from "react";
 import { createTw } from "react-pdf-tailwind";
+
+
+Font.register({
+  family: "PlaywriteCU",
+  fonts: [
+    {
+      src: '/fonts/PlaywriteCU-Regular.ttf',
+      fontWeight: 400,
+      fontStyle: "normal"
+    }
+  ]
+})
+
 
 const tw = createTw({});
 
@@ -17,8 +31,8 @@ export default function PdfLogaalcargo() {
   return (
     <PDFViewer className="w-full h-full">
       <Document>
-        <Page size="LETTER" style={tw("p-4 text-sm")}>
-          <Image src="/images/customsBanner.png" />
+        <Page size="LETTER" style={tw("p-4 text-xs")}>
+          <Image src="/images/customsBanner.png" style={tw("h-20")} />
           <View style={tw("w-full flex flex-row justify-end")}>
             <View
               style={tw("flex flex-row bg-slate-300 w-96 justify-evenly my-2")}
@@ -154,8 +168,21 @@ export default function PdfLogaalcargo() {
             </View>
             <TableRows rows={rows} />
           </View>
-          <View></View>
-          <View style={tw("flex flex-row w-full text-xs")}>
+          <View style={tw("w-full flex flex-row")}>
+            <View style={tw("border-t")}>
+              <Text>NOMBRE Y FIRMA DEL CLIENTE</Text>
+              <Text>La aceptacion del cliente</Text>
+            </View>
+            <View style={tw("flex")}>
+              <View style={tw("flex flex-row")}><Text>Subtotal</Text><Text>$1.20</Text></View>
+              <View style={tw("flex flex-row")}><Text>Imponible</Text><Text>$0.00</Text></View>
+              <View style={tw("flex flex-row")}><Text>Impuesto %</Text><Text>$0.00</Text></View>
+              <View style={tw("flex flex-row")}><Text>Total Impuesto</Text><Text>$0.00</Text></View>
+              <View style={tw("flex flex-row")}><Text>Otros</Text><Text>$0.00</Text></View>
+              <View style={tw("flex flex-row")}><Text>TOTAL</Text><Text style={tw("bg-slate-300")}>$0.00</Text></View>
+            </View>
+          </View>
+          <View style={[{fontFamily: "PlaywriteCU"}, tw("flex flex-row w-full leading-loose text-blue-600 border-y py-2 mt-2")]}>
             <Text>
               FORMA DE PAGO: Marítimo: Al contado 10 días antes del arribo.
               Terrestre: Al contado, a la llegada del contenedor a la Aduana.
