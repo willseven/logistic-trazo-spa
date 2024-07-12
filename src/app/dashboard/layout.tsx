@@ -90,7 +90,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                     onClick={() => {
                       localStorage.removeItem("token");
                       localStorage.removeItem("id");
-                      router.push("../auth/login");
+                      router.push("/auth/login");
                     }}
                   >
                     Cerrar sesión

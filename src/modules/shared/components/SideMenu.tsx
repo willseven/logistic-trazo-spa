@@ -103,7 +103,7 @@ export const SideMenu = () => {
                           const isCurrentStep = currentStep === process.step.toString();
                           return (
                             <li key={process.id}>
-                              <Link href={`/dashboard/ManageProcedures/step?step=${process.step}&id=${typeofsteps.id}&currentRoleId=${currentRole?.id}`}>
+                              <Link href={`/dashboard/ManageProcedures/step?step=${process.step}&id=${typeofsteps.id}&currentRoleId=${currentRole?.id}&stepid=${process.id}`}>
                                 <AccordionContent
                                   className={`hover:bg-gray-200 rounded-md ${isCurrentStep ? 'bg-gray-300' : ''}`}
                                 >

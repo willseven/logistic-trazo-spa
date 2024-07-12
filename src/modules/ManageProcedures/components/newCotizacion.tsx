@@ -209,7 +209,7 @@ const NewCotizacion = () => {
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage /> 
                   </FormItem>
                 )}
               />

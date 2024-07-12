@@ -39,7 +39,7 @@ import { IManageProcedure } from '../interface/manageprocedure';
 import NewCotizacion from './newCotizacion';
 
 export const TableProcedure = (props: { data: IManageProcedure[]}) => {
-  const { data } = props;
+  const { data} = props;
   const columns = columnsMAnageProcedure;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -106,7 +106,7 @@ export const TableProcedure = (props: { data: IManageProcedure[]}) => {
           </SelectContent>
         </Select>
     
-        <NewCotizacion/>
+        <NewCotizacion />
         {/* <Button asChild><Link href="/dashboard/userManagement/new">Crear Rol</Link></Button> */}
       </div>
       <div className="rounded-md border ">

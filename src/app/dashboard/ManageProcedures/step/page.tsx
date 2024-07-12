@@ -36,7 +36,7 @@ function ManageProceduresComponent() {
     <div>
       <h1 className="flex items-center justify-center font-bold text-xl">Cotizaciones</h1>
       <section>
-        <TableProcedure data={data ?? []} />
+        <TableProcedure data={data ?? []}/>
       </section>
     </div>
   );
