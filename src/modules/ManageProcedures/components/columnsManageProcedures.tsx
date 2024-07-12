@@ -20,6 +20,7 @@ import { IManageProcedure } from "../interface/manageprocedure";
 import CreateFormCotizacion from "./createFormCotizacion";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import InvoiceDialog from "./InvoiceDialog";
 
 const SortedIcon = ({ isSorted }: { isSorted: false | SortDirection }) => {
   if (isSorted === "asc") {
@@ -100,23 +101,21 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
     cell: ({ row }) => {
       const id = row.original.id;
       const [open, setOpen] = useState(false);
-
+      console.log("here",id);
       return (
         <div className="flex gap-2 justify-center">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => setOpen(true)}>Cotizar</Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-screen h-screen overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Cotización</DialogTitle>
               </DialogHeader>
               <CreateFormCotizacion idcompany={id} />
             </DialogContent>
           </Dialog>
-          <Button size="icon">
-            <Printer className="h-4 w-4" />
-          </Button>
+          <InvoiceDialog procedureId={id}/>
         </div>
       );
     },
