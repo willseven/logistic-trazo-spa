@@ -73,8 +73,8 @@ const NewCotizacion = () => {
 
       return response.data;
     },
-    enabled: !!token,
-    staleTime: 1000 * 60 * 10, // Volver a hacer fetch luego de 10 min
+    //enabled: !!token,
+    //staleTime: 1000 * 60 * 10, // Volver a hacer fetch luego de 10 min
   });
 
 
