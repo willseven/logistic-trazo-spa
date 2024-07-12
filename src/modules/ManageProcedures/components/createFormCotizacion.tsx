@@ -4,7 +4,15 @@ import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import SelectGetComponent from "./SelectGetComponent";
+import SubDataContaAdd from "./SubDataContaAdd";
 
 interface ProcedureType {
   id: number;
@@ -41,21 +49,24 @@ interface FieldType {
   dataSets: any[];
 }
 
-const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
-  let token: string | null = null;
+let token: string | null = null;
 
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("token");
-  }
+if (typeof window !== "undefined") {
+  token = localStorage.getItem("token");
+}
+const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
 
   const { data, isLoading, isError, error, refetch } = useQuery<ProcedureType>({
     queryKey: ["procedure", idcompany],
     queryFn: async () => {
-      const response = await api.get(`processstep/96/procedure/${idcompany}?type=2`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(
+        `processstep/96/procedure/${idcompany}?type=2`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       return response.data;
     },
@@ -65,10 +76,10 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
 
   useEffect(() => {
-    if (token) {
+ 
       refetch();
-    }
-  }, [idcompany, token, refetch]);
+   
+  }, [idcompany, refetch]);
 
   const handleInputChange = (name: string, value: any) => {
     setFormValues((prevValues) => ({
@@ -94,7 +105,9 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
     <form onSubmit={handleSubmit}>
       {data?.fields.map((field) => (
         <div key={field.id} className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+          <label className="block text-sm font-medium text-gray-700">
+            {field.label}
+          </label>
           {field.type === "text" && (
             <Input
               type="text"
@@ -103,7 +116,14 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
             />
           )}
           {field.type === "selectGet" && (
-            <SelectGetComponent field={field} handleInputChange={handleInputChange} />
+            <SelectGetComponent
+              field={field}
+              handleInputChange={handleInputChange}
+              
+            />
+          )}
+          {field.type === "subDataContaAdd" && (
+            <SubDataContaAdd idcompany={idcompany} field={field} handleInputChange={handleInputChange} />
           )}
         </div>
       ))}
@@ -112,46 +132,6 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
   );
 };
 
-interface SelectGetComponentProps {
-  field: FieldType;
-  handleInputChange: (name: string, value: any) => void;
-}
-
-const SelectGetComponent = ({ field, handleInputChange }: SelectGetComponentProps) => {
-    const token = localStorage.getItem("token");
-    const { data, isLoading, isError, error, refetch } = useQuery<any[]>({
-    queryKey: [field.url],
-    queryFn: async () => {
-      const response = await api.get(`Dropdown/${field.url}/options`,{headers: {
-        Authorization: `Bearer ${token}`,
-      },});
-      return response.data;
-    },
-  });
-  
-
-  if (isLoading) {
-    return <div>Loading options...</div>;
-  }
-
-  if (isError) {
-    return <div>Error loading options: {error.message}</div>;
-  }
-
-  return (
-    <Select onValueChange={(value) => handleInputChange(field.name, value)}>
-      <SelectTrigger>
-        <SelectValue placeholder={`${field.label}`} />
-      </SelectTrigger>
-      <SelectContent>
-        {data?.map((option) => (
-          <SelectItem key={option.id} value={option.id}>
-            {option.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
 
 export default CreateFormCotizacion;
+
