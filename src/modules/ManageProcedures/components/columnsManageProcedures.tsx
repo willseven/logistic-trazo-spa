@@ -107,9 +107,10 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
             <DialogTrigger asChild>
               <Button onClick={() => setOpen(true)}>Cotizar</Button>
             </DialogTrigger>
-            <DialogContent>
+            {/* <DialogContent className="sm:max-w-[800px] h-[full] "> */}
+            <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
               <DialogHeader>
-                <DialogTitle>Cotización</DialogTitle>
+                <DialogTitle className="text-center">Cotización</DialogTitle>
               </DialogHeader>
               <CreateFormCotizacion idcompany={id} />
             </DialogContent>

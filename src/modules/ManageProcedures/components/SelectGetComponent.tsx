@@ -74,7 +74,7 @@ const SelectGetComponent = ({
           <SelectValue placeholder={`${field.label}`} />
         </SelectTrigger>
         <SelectContent>
-            <SelectGroup>
+            <SelectGroup >
 
           {data?.map((option) => (
               <SelectItem key={option.id} value={option.name}>

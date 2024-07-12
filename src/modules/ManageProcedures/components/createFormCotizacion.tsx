@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import SelectGetComponent from "./SelectGetComponent";
 import SubDataContaAdd from "./SubDataContaAdd";
+import { CalendarPick } from "./calendarpick";
 
 interface ProcedureType {
   id: number;
@@ -102,18 +103,29 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
   }
 
   return (
+    <div >
+
     <form onSubmit={handleSubmit}>
+      <div  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      
       {data?.fields.map((field) => (
-        <div key={field.id} className="mb-4">
+        <div key={field.id} className={`mb-4 ${field.type === 'subDataContaAdd' ? 'col-span-full' : ''}`}>
           <label className="block text-sm font-medium text-gray-700">
             {field.label}
           </label>
+          {field.type === "requestSerialNumber" && (
+            <div className="mt-1 p-2 text-xl px-3 bg-gray-50">{`${field.initial}`} </div>
+          )}
           {field.type === "text" && (
             <Input
               type="text"
               value={formValues[field.name] || ""}
               onChange={(e) => handleInputChange(field.name, e.target.value)}
             />
+          )}
+          {field.type === "date" && (
+            <CalendarPick/>
           )}
           {field.type === "selectGet" && (
             <SelectGetComponent
@@ -127,8 +139,10 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
           )}
         </div>
       ))}
-      <Button type="submit">Enviar</Button>
+      </div>
+      <Button type="submit">Guardar</Button>
     </form>
+    </div>
   );
 };
 
