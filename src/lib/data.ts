@@ -4,6 +4,7 @@ import { CompanyResponse, Menu, Rol, UpdateUserResponse } from "./types";
 import { NewCompany } from "@/app/dashboard/manage-company/new/CreateNewCompanyForm";
 import { NewMenu } from "@/app/dashboard/MenuRegister/new/CreateNewMenuForm";
 import { EditMenu } from "@/app/dashboard/MenuRegister/EditMenu";
+import { ProcedurePrice } from "@/modules/ManageProcedures/components/InvoiceDialog";
 
 /**
  * Sets the authorization token in the Axios instance headers.
@@ -135,4 +136,16 @@ export async function fetchUserById(id: string): Promise<UpdateUserResponse> {
   setAuthToken(token);
   const response = await api.get(`/Users/${id}/GetUserId`);
   return response.data;
+}
+
+
+export async function fetchProcedurePriceDetails(procedureId: number): Promise<ProcedurePrice>{
+  let token;
+  if(typeof window !== "undefined"){
+    token = localStorage.getItem("token");
+  }
+  setAuthToken(token);
+
+  const response = await api.get(`/Logaalcargo/${procedureId}/proform`);
+  return response.data
 }
