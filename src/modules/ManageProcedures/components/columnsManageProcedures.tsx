@@ -100,13 +100,12 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const id = row.original.id;
-      const [open, setOpen] = useState(false);
       console.log("here",id);
       return (
         <div className="flex gap-2 justify-center">
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setOpen(true)}>Cotizar</Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button>Cotizar</Button>
             </DialogTrigger>
             {/* <DialogContent className="sm:max-w-[800px] h-[full] "> */}
             <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
