@@ -12,7 +12,7 @@ import PageTheme from "../../../app/dashboard/theme/page";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import useStore from "@/hooks/useStore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -22,7 +22,7 @@ import {
 import { usePathname, useSearchParams } from "next/navigation";
 import { BsArrowUpRightSquareFill, BsArrowUpRightSquare } from "react-icons/bs";
 
-export const SideMenu = () => {
+const SideMenuComponent = () => {
   const pathname = usePathname();
   const params = useSearchParams();
   const currentStep = params.get("step");
@@ -115,3 +115,11 @@ export const SideMenu = () => {
     </div>
   );
 };
+
+export default function SideMenu() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <SideMenuComponent/>
+    </Suspense>
+  )
+}
