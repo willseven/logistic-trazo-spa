@@ -45,10 +45,3 @@ export default function MatrizTarifasPage() {
   );
 }
 
-export default function MatrizTarifas() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <MatrizTarifasComponent />
-    </Suspense>
-  );
-}

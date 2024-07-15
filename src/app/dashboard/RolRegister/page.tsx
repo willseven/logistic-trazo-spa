@@ -5,7 +5,7 @@ import { TableRol } from "../../../modules/RolRegister/components/TableRol";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
-const RolRegisterComponent = cache(() => {
+const RolRegisterComponent = () => {
   let token: string | null = null;
   let id: string | null = null;
 
@@ -42,7 +42,7 @@ const RolRegisterComponent = cache(() => {
       </section>
     </div>
   );
-});
+};
 
 const Loading = () => <div>Loading...</div>;
 const ErrorFallback = ({ error }: { error: Error }) => (
