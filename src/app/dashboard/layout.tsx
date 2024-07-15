@@ -4,7 +4,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import Image from 'next/image'
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SideMenu } from "../../modules/shared/components/SideMenu";
+import SideMenu from "../../modules/shared/components/SideMenu";
 import RolesSelect from "./RolesSelect";
 import { useUserStore } from "@/lib/store";
 import { useMenuList } from "@/hooks/useMenuList";
@@ -18,7 +18,6 @@ import { FaBoxesPacking } from "react-icons/fa6";
 
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
-  const params = useSearchParams();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const { currentRole, setMenuList } = useUserStore((state) => ({
