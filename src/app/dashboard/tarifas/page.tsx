@@ -4,7 +4,7 @@ import { TableTarifa } from "@/modules/matrizCotizaciones/components/TableTarifa
 import { ITarifa } from "@/modules/matrizCotizaciones/interface/tarifa";
 import { useQuery } from "@tanstack/react-query";
 
-export default function matrizTarifas() {
+export default function MatrizTarifasPage() {
   let token: string | null = null;
   let id: string | null = null;
 
