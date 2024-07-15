@@ -65,8 +65,8 @@ const SelectGetComponent = ({
       return <div>Error al cargar: {error.message}</div>;
     }
     const handleSelectChange = (value: string) => {
-        // console.log(value)
-        setSelectedOption(value);
+      setSelectedOption(value);
+      handleInputChange(field.name, value);
       };
     return (
       <Select value={selectedOption} onValueChange={handleSelectChange}>

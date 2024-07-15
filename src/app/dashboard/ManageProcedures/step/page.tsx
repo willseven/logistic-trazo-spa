@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import { Suspense } from "react";
 import { api } from "@/lib/api";
-import { useUserStore } from "@/lib/store";
 import { TableProcedure } from "@/modules/ManageProcedures/components/Tableprocedures";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { ErrorBoundary } from "react-error-boundary"; // Asegúrate de tener react-error-boundary instalado
 
 function ManageProceduresComponent() {
   const params = useSearchParams();
@@ -30,13 +30,13 @@ function ManageProceduresComponent() {
   });
 
   if (isLoading) return "Loading...";
-  if (isError) return `Error: ${error.message}`;
+  if (isError) return `Error: ${(error as Error).message}`;
 
   return (
     <div>
       <h1 className="flex items-center justify-center font-bold text-xl">Cotizaciones</h1>
       <section>
-        <TableProcedure data={data ?? []}/>
+        <TableProcedure data={data ?? []} />
       </section>
     </div>
   );
@@ -46,10 +46,24 @@ function Loading() {
   return <div>Loading...</div>;
 }
 
-export default function ManageProcedures() {
+function ErrorFallback({ error }: { error: Error }) {
+  return <div>Error: {error.message}</div>;
+}
+
+function ManageProceduresWrapper() {
   return (
     <Suspense fallback={<Loading />}>
       <ManageProceduresComponent />
     </Suspense>
+  );
+}
+
+export default function Page() {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<Loading />}>
+        <ManageProceduresWrapper />
+      </Suspense>
+    </ErrorBoundary>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import {
 import SelectGetComponent from "./SelectGetComponent";
 import SubDataContaAdd from "./SubDataContaAdd";
 import { CalendarPick } from "./calendarpick";
+import { toast } from "sonner";
 
 interface ProcedureType {
   id: number;
@@ -56,7 +57,7 @@ if (typeof window !== "undefined") {
   token = localStorage.getItem("token");
 }
 const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
-
+  const queryClient = useQueryClient();
   const { data, isLoading, isError, error, refetch } = useQuery<ProcedureType>({
     queryKey: ["procedure", idcompany],
     queryFn: async () => {
@@ -76,10 +77,28 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
 
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
 
+
+  const newUserMutation :any = useMutation({
+    mutationFn: async (data: ProcedureType) => {
+      const response = await api.post("/dataset", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Hubo un error ");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["Rols"] });
+      toast.success("Registrado exitosamente");
+      
+    },
+  });
+
   useEffect(() => {
- 
-      refetch();
-   
+    refetch();
   }, [idcompany, refetch]);
 
   const handleInputChange = (name: string, value: any) => {
@@ -91,7 +110,27 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formValues);
+    if (!data) return;
+
+    const payload = data.fields.map((field) => {
+      let value = formValues[field.name] || "";
+      if (field.type === "requestSerialNumber") {
+        value = field.initial;
+      }
+  
+      
+  
+      return {
+        Value: value,
+        ProcedureId: data.procedureId,
+        FieldId: field.id,
+        name: field.name,
+        url: field.url,
+        type: field.type,
+      };
+    });
+
+    newUserMutation.mutate(payload);
   };
 
   if (isLoading) {
@@ -103,49 +142,60 @@ const CreateFormCotizacion = ({ idcompany }: { idcompany: number }) => {
   }
 
   return (
-    <div >
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {data?.fields?.map((field) => (
+            <div
+              key={field.id}
+              className={`mb-4 ${
+                field.type === "subDataContaAdd" ? "col-span-full" : ""
+              }`}
+            >
+              <label className="block text-sm font-medium text-gray-700">
+                {field.label}
+              </label>
+              {field.type === "requestSerialNumber" && (
+                <div className="mt-1 p-2 text-xl px-3 bg-gray-50">
+                  {`${field.initial}`}{" "}
+                </div>
+              )}
+              {field.type === "text" && (
+                <Input
+                  type="text"
+                  value={formValues[field.name] || ""}
+                  onChange={(e) =>
+                    handleInputChange(field.name, e.target.value)
+                  }
+                />
+              )}
+              {field.type === "date" && (
+                <CalendarPick
+                  name={field.name}
+                  handleInputChange={handleInputChange}
+                />
+              )}
 
-    <form onSubmit={handleSubmit}>
-      <div  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-
-      
-      {data?.fields.map((field) => (
-        <div key={field.id} className={`mb-4 ${field.type === 'subDataContaAdd' ? 'col-span-full' : ''}`}>
-          <label className="block text-sm font-medium text-gray-700">
-            {field.label}
-          </label>
-          {field.type === "requestSerialNumber" && (
-            <div className="mt-1 p-2 text-xl px-3 bg-gray-50">{`${field.initial}`} </div>
-          )}
-          {field.type === "text" && (
-            <Input
-              type="text"
-              value={formValues[field.name] || ""}
-              onChange={(e) => handleInputChange(field.name, e.target.value)}
-            />
-          )}
-          {field.type === "date" && (
-            <CalendarPick/>
-          )}
-          {field.type === "selectGet" && (
-            <SelectGetComponent
-              field={field}
-              handleInputChange={handleInputChange}
-              
-            />
-          )}
-          {field.type === "subDataContaAdd" && (
-            <SubDataContaAdd idcompany={idcompany} field={field} handleInputChange={handleInputChange} />
-          )}
+              {field.type === "selectGet" && (
+                <SelectGetComponent
+                  field={field}
+                  handleInputChange={handleInputChange}
+                />
+              )}
+              {field.type === "subDataContaAdd" && (
+                <SubDataContaAdd
+                  idcompany={idcompany}
+                  field={field}
+                  handleInputChange={handleInputChange}
+                />
+              )}
+            </div>
+          ))}
         </div>
-      ))}
-      </div>
-      <Button type="submit">Guardar</Button>
-    </form>
+        <Button type="submit">Guardar</Button>
+      </form>
     </div>
   );
 };
 
-
 export default CreateFormCotizacion;
-

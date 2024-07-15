@@ -1,7 +1,7 @@
-
-
-export default function ListProcedure () {
+export default function ListProcedure() {
   return (
-    <div>Listar tramites </div>
+    <h1>
+      Page
+    </h1>
   )
 }

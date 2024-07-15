@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { postMenu } from "@/lib/data";
+import React, { Suspense } from 'react';
 
 const newMenuSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
@@ -26,7 +27,7 @@ const newMenuSchema = z.object({
 
 export type NewMenu = z.infer<typeof newMenuSchema>;
 
-export default function CreateNewMenuForm() {
+function CreateNewMenuForm() {
   const newMenuForm = useForm<NewMenu>({
     resolver: zodResolver(newMenuSchema),
     defaultValues: {
@@ -45,7 +46,7 @@ export default function CreateNewMenuForm() {
       toast.error("Hubo un error al crear el menú");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["Menus"]});
+      queryClient.invalidateQueries({ queryKey: ["Menus"] });
       toast.success("Menú creado exitosamente");
       router.push('/dashboard/MenuRegister');
     }
@@ -90,5 +91,13 @@ export default function CreateNewMenuForm() {
         <Button type="submit">Enviar</Button>
       </form>
     </Form>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreateNewMenuForm />
+    </Suspense>
   );
 }

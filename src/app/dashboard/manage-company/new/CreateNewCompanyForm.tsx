@@ -1,10 +1,11 @@
-"use client"
+// CreateNewCompanyForm.js
+"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod"
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,25 +30,12 @@ const newCompanySchema = z.object({
   num: z.string().optional(),
   phone: z.string(),
   razonSocial: z.string(),
-  categoria: z.enum(['AA','A','B','C']),
-  //legalRepresentative: z.string(),
-  //status: z.string(),
-  //sigla: z.string(),
-  //tipoCliente: z.string(),
-  //pais: z.string(),
-  //departamento: z.string(),
-  //ciudad: z.string(),
-  //domicilioLegal: z.string(),
-  //clasificacionCliente: z.string(),
-  //actividad: z.string(),
-  //pagaTributos: z.string(),
-  //descripcionNegocio: z.string(),
-})
+  categoria: z.enum(['AA', 'A', 'B', 'C']),
+});
 
 export type NewCompany = z.infer<typeof newCompanySchema>;
 
 export default function CreateNewCompanyForm() {
-
   const newCompanyForm = useForm<NewCompany>({
     resolver: zodResolver(newCompanySchema),
     defaultValues: {
@@ -58,9 +46,9 @@ export default function CreateNewCompanyForm() {
       nit: "",
       phone: "",
       razonSocial: "",
-      categoria: undefined
-    }
-  })
+      categoria: undefined,
+    },
+  });
 
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -68,19 +56,18 @@ export default function CreateNewCompanyForm() {
   const newCompanyMutation = useMutation({
     mutationFn: postCompany,
     onError: (error) => {
-    console.log(error);
-      toast.error("Hubo un error al crear el usuario")
+      console.log(error);
+      toast.error("Hubo un error al crear la compañía");
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey:["Companies"]})
-      toast.success("Compania creada exitosamente");
+      queryClient.invalidateQueries({ queryKey: ["Companies"] });
+      toast.success("Compañía creada exitosamente");
       router.push('/dashboard/manage-company');
-    }
-  })
+    },
+  });
 
-
-  function onSubmit(values:NewCompany) {
-    console.log(values)
+  function onSubmit(values: NewCompany) {
+    console.log(values);
     newCompanyMutation.mutate(values);
   }
 
@@ -162,7 +149,7 @@ export default function CreateNewCompanyForm() {
           name="num"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Id de Compania</FormLabel>
+              <FormLabel>Id de Compañía</FormLabel>
               <FormControl>
                 <Input placeholder="Id" {...field} />
               </FormControl>
@@ -228,5 +215,5 @@ export default function CreateNewCompanyForm() {
         <Button type="submit">Enviar</Button>
       </form>
     </Form>
-  )
+  );
 }

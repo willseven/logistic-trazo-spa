@@ -1,5 +1,4 @@
 import { ColumnDef, SortDirection } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
 import {
   ArrowUpDown,
@@ -18,21 +17,41 @@ import { Trash2, Printer } from "lucide-react";
 import { FolderUp } from "lucide-react";
 import { IManageProcedure } from "../interface/manageprocedure";
 import CreateFormCotizacion from "./createFormCotizacion";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import InvoiceDialog from "./InvoiceDialog";
+import { useState } from "react";
 
 const SortedIcon = ({ isSorted }: { isSorted: false | SortDirection }) => {
   if (isSorted === "asc") {
-    return <ChevronUpIcon className=" h-4 w-4" />;
+    return <ChevronUpIcon className="h-4 w-4" />;
   }
   if (isSorted === "desc") {
-    return <ChevronDownIcon className=" h-4 w-4" />;
+    return <ChevronDownIcon className="h-4 w-4" />;
   }
   return null;
 };
 
-export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
+const ActionCell = ({ id }: { id: number }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="flex gap-2 justify-center">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button onClick={() => setOpen(true)}>Cotizar</Button>
+        </DialogTrigger>
+        <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
+          <DialogHeader>
+            <DialogTitle className="text-center">Cotización</DialogTitle>
+          </DialogHeader>
+          <CreateFormCotizacion idcompany={id} />
+        </DialogContent>
+      </Dialog>
+      <InvoiceDialog procedureId={id} />
+    </div>
+  );
+};
+
+export const columnsManageProcedure: ColumnDef<IManageProcedure>[] = [
   // {
   //   accessorKey:"id" ,
   //   header:"id" ,
@@ -100,24 +119,7 @@ export const columnsMAnageProcedure: ColumnDef<IManageProcedure>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const id = row.original.id;
-      console.log("here",id);
-      return (
-        <div className="flex gap-2 justify-center">
-          <Dialog>
-            <DialogTrigger>
-              <Button>Cotizar</Button>
-            </DialogTrigger>
-            {/* <DialogContent className="sm:max-w-[800px] h-[full] "> */}
-            <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-screen">
-              <DialogHeader>
-                <DialogTitle className="text-center">Cotización</DialogTitle>
-              </DialogHeader>
-              <CreateFormCotizacion idcompany={id} />
-            </DialogContent>
-          </Dialog>
-          <InvoiceDialog procedureId={id}/>
-        </div>
-      );
+      return <ActionCell id={id} />;
     },
   },
 ];

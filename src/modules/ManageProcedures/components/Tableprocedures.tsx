@@ -32,7 +32,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { columnsMAnageProcedure } from './columnsManageProcedures';
+import { columnsManageProcedure } from './columnsManageProcedures';
 
 import { useState, useEffect } from 'react';
 import { IManageProcedure } from '../interface/manageprocedure';
@@ -40,7 +40,7 @@ import NewCotizacion from './newCotizacion';
 
 export const TableProcedure = (props: { data: IManageProcedure[]}) => {
   const { data} = props;
-  const columns = columnsMAnageProcedure;
+  const columns = columnsManageProcedure;
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [filterValue, setFilterValue] = useState("");

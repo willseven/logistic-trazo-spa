@@ -1,9 +1,7 @@
-
-
-export default function HistoryProcedure () {
+export default function HistoryProcedure() {
   return (
-    <div>Historial de tramites</div>
+    <h1>
+      Page
+    </h1>
   )
 }
-
-

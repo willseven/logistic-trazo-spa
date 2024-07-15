@@ -1,9 +1,14 @@
+
 import CreateNewCompanyForm from "./CreateNewCompanyForm";
+import { Suspense } from "react";
 
 export default function CreateNewCompanyPage() {
   return (
     <main>
-      <CreateNewCompanyForm/>
+      <Suspense fallback={<div>Loading...</div>}>
+        <CreateNewCompanyForm />
+      </Suspense>
     </main>
-  )
+  );
 }
+

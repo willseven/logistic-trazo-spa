@@ -1,24 +1,20 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import React, { Suspense, useState, cache } from "react";
 import { api } from "@/lib/api";
-import { TableUsers } from "@/modules/usersManagement/components/TableUsers";
-import { IUser } from "@/modules/usersManagement/interface/users";
+import { TableRol } from "../../../modules/RolRegister/components/TableRol";
 import { useQuery } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
-import { useState } from "react";
-import { TableRol } from '../../../modules/RolRegister/components/TableRol';
-
-const RolRegister = () => {
+const RolRegisterComponent = cache(() => {
   let token: string | null = null;
   let id: string | null = null;
 
-  if(typeof window !== "undefined"){
+  if (typeof window !== "undefined") {
     token = window.localStorage.getItem("token");
     id = window.localStorage.getItem("id");
   }
 
-
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["Rols"],
     queryFn: async () => {
       const response = await api.get(`/rol`, {
@@ -27,28 +23,38 @@ const RolRegister = () => {
         },
       });
 
-   
-
       return response.data;
     },
-    
     enabled: true,
-    staleTime: 1000 * 60 * 10, // Volver a hacer fetch luego de 10 min
+    staleTime: 1000 * 60 * 10,
   });
-  if (isPending) return "Pending...";
-  if (isError) return `Error: ${error.message}`;
-  // console.log(data)
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {(error as Error).message}</div>;
 
   return (
     <div>
-      <h1 className="flex items-center justify-center font-bold text-xl">Roles</h1>
+      <h1 className="flex items-center justify-center font-bold text-xl">
+        Roles
+      </h1>
       <section>
-        <TableRol
-          data={data ?? []} 
-        />
+        <TableRol data={data ?? []} />
       </section>
     </div>
   );
-};
+});
 
-export default RolRegister;
+const Loading = () => <div>Loading...</div>;
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div>Error: {error.message}</div>
+);
+
+export default function Page() {
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<Loading />}>
+        <RolRegisterComponent />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}

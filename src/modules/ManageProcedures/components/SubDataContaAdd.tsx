@@ -71,6 +71,7 @@ const SubDataContaAdd = ({
   const [monto, setMonto] = useState("");
   const [query, setQuery] = useState("");
   const token = localStorage.getItem("token");
+  const [subData, setSubData] = useState<{ [key: string]: any }>({});
 
   const {
     data: optionsData,
