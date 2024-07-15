@@ -66,7 +66,7 @@ export default function PdfDocument({
     },
   ];
 
-  let serviceRows: Rate[] = procedure.descripcionServicio.map((service) => {
+  let serviceRows: Rate[] = procedure.descripcionServicio?.map((service) => {
     return {
       serviceDesc: service.label,
       unitPrice: service.description,
@@ -74,7 +74,7 @@ export default function PdfDocument({
       taxes: "0", // de momento
       total: parseFloat(service.description) * parseFloat(service.description2),
     };
-  });
+  }) ?? [];
 
   console.log(serviceRows);
 
